@@ -1,0 +1,980 @@
+2024-11-24 12:37:30.243066 INFO::Writing function arguments to log file
+2024-11-24 12:37:30.249779 DEBUG::Function arguments
+2024-11-24 12:37:30.251063 DEBUG::Output folder: ITS1
+2024-11-24 12:37:30.251826 DEBUG::Min Abundance: 0.000000
+2024-11-24 12:37:30.252409 DEBUG::Min Prevalence: 0.000000
+2024-11-24 12:37:30.252998 DEBUG::Normalization: TSS
+2024-11-24 12:37:30.253537 DEBUG::Transform: AST
+2024-11-24 12:37:30.254105 DEBUG::Analysis method: LM
+2024-11-24 12:37:30.254808 DEBUG::Max significance: 0.250000
+2024-11-24 12:37:30.255382 DEBUG::Random effects:
+2024-11-24 12:37:30.25592 DEBUG::Fixed effects: pH
+2024-11-24 12:37:30.256521 DEBUG::Correction method: BH
+2024-11-24 12:37:30.257159 DEBUG::Standardize: FALSE
+2024-11-24 12:37:30.257726 DEBUG::Cores: 1
+2024-11-24 12:37:30.258312 INFO::Verifying options selected are valid
+2024-11-24 12:37:30.261462 INFO::Determining format of input files
+2024-11-24 12:37:30.263126 INFO::Input format is data samples as rows and metadata samples as rows
+2024-11-24 12:37:30.267282 DEBUG::A total of 23 samples were found in both the data and metadata
+2024-11-24 12:37:30.268108 DEBUG::Reordering data/metadata to use same sample ordering
+2024-11-24 12:37:30.280622 INFO::Formula for fixed effects: expr ~  pH
+2024-11-24 12:37:30.284686 INFO::Filter data based on min abundance and min prevalence
+2024-11-24 12:37:30.286522 INFO::Total samples in data: 23
+2024-11-24 12:37:30.288282 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2024-11-24 12:37:30.306275 INFO::Total filtered features: 0
+2024-11-24 12:37:30.312545 INFO::Filtered feature names from abundance and prevalence filtering:
+2024-11-24 12:37:30.341778 INFO::Total filtered features with variance filtering: 0
+2024-11-24 12:37:30.3438 INFO::Filtered feature names from variance filtering:
+2024-11-24 12:37:30.345456 INFO::Running selected normalization method: TSS
+2024-11-24 12:37:30.363721 INFO::Bypass z-score application to metadata
+2024-11-24 12:37:30.36648 INFO::Running selected transform method: AST
+2024-11-24 12:37:30.382475 INFO::Running selected analysis method: LM
+2024-11-24 12:37:30.391284 INFO::Fitting model to feature number 1, Aaosphaeria
+2024-11-24 12:37:30.412692 INFO::Fitting model to feature number 2, Acarospora
+2024-11-24 12:37:30.418573 INFO::Fitting model to feature number 3, Acarosporales_gen_Incertae_sedis
+2024-11-24 12:37:30.430918 INFO::Fitting model to feature number 4, Achroceratosphaeria
+2024-11-24 12:37:30.439147 INFO::Fitting model to feature number 5, Acremonium
+2024-11-24 12:37:30.44558 INFO::Fitting model to feature number 6, Agaricales_gen_Incertae_sedis
+2024-11-24 12:37:30.452442 INFO::Fitting model to feature number 7, Agaricomycetes_gen_Incertae_sedis
+2024-11-24 12:37:30.459087 INFO::Fitting model to feature number 8, Agonimia
+2024-11-24 12:37:30.4673 INFO::Fitting model to feature number 9, Alatospora
+2024-11-24 12:37:30.474404 INFO::Fitting model to feature number 10, Alternaria
+2024-11-24 12:37:30.482898 INFO::Fitting model to feature number 11, Amanita
+2024-11-24 12:37:30.490521 INFO::Fitting model to feature number 12, Ampelomyces
+2024-11-24 12:37:30.499851 INFO::Fitting model to feature number 13, Amphinema
+2024-11-24 12:37:30.506516 INFO::Fitting model to feature number 14, Amphisphaeriaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.511897 INFO::Fitting model to feature number 15, Ampulloclitocybe
+2024-11-24 12:37:30.51735 INFO::Fitting model to feature number 16, Annulatascales_gen_Incertae_sedis
+2024-11-24 12:37:30.525228 INFO::Fitting model to feature number 17, Antarctomyces
+2024-11-24 12:37:30.530028 INFO::Fitting model to feature number 18, Aphanocladium
+2024-11-24 12:37:30.538002 INFO::Fitting model to feature number 19, Apiosordaria
+2024-11-24 12:37:30.542897 INFO::Fitting model to feature number 20, Apiotrichum
+2024-11-24 12:37:30.547657 INFO::Fitting model to feature number 21, Apodus
+2024-11-24 12:37:30.552903 INFO::Fitting model to feature number 22, Arachnopeziza
+2024-11-24 12:37:30.557376 INFO::Fitting model to feature number 23, Arbusculina
+2024-11-24 12:37:30.564057 INFO::Fitting model to feature number 24, Archaeorhizomyces
+2024-11-24 12:37:30.570759 INFO::Fitting model to feature number 25, Archaeorhizomycetes_gen_Incertae_sedis
+2024-11-24 12:37:30.577159 INFO::Fitting model to feature number 26, Armillaria
+2024-11-24 12:37:30.582623 INFO::Fitting model to feature number 27, Arrhenia
+2024-11-24 12:37:30.587404 INFO::Fitting model to feature number 28, Arthrobotrys
+2024-11-24 12:37:30.592813 INFO::Fitting model to feature number 29, Articulospora
+2024-11-24 12:37:30.597676 INFO::Fitting model to feature number 30, Ascochyta
+2024-11-24 12:37:30.605032 INFO::Fitting model to feature number 31, Ascocorticium
+2024-11-24 12:37:30.610265 INFO::Fitting model to feature number 32, Ascocoryne
+2024-11-24 12:37:30.615551 INFO::Fitting model to feature number 33, Ascomycota_gen_Incertae_sedis
+2024-11-24 12:37:30.621957 INFO::Fitting model to feature number 34, Aspergillaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.626886 INFO::Fitting model to feature number 35, Aspicilia
+2024-11-24 12:37:30.631605 INFO::Fitting model to feature number 36, Athelia
+2024-11-24 12:37:30.640165 INFO::Fitting model to feature number 37, Atheliaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.645121 INFO::Fitting model to feature number 38, Aureobasidium
+2024-11-24 12:37:30.650232 INFO::Fitting model to feature number 39, Auriculariales_gen_Incertae_sedis
+2024-11-24 12:37:30.655777 INFO::Fitting model to feature number 40, Babjevia
+2024-11-24 12:37:30.661017 INFO::Fitting model to feature number 41, Babjeviella
+2024-11-24 12:37:30.666398 INFO::Fitting model to feature number 42, Bacidina
+2024-11-24 12:37:30.672038 INFO::Fitting model to feature number 43, Ballistosporomyces
+2024-11-24 12:37:30.677207 INFO::Fitting model to feature number 44, Bannozyma
+2024-11-24 12:37:30.683513 INFO::Fitting model to feature number 45, Basidiobolus
+2024-11-24 12:37:30.688634 INFO::Fitting model to feature number 46, Basidiodendron
+2024-11-24 12:37:30.694525 INFO::Fitting model to feature number 47, Beauveria
+2024-11-24 12:37:30.699548 INFO::Fitting model to feature number 48, Bicornispora
+2024-11-24 12:37:30.705696 INFO::Fitting model to feature number 49, Bionectriaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.711361 INFO::Fitting model to feature number 50, Blastocladiomycota_gen_Incertae_sedis
+2024-11-24 12:37:30.716184 INFO::Fitting model to feature number 51, Boliniales_gen_Incertae_sedis
+2024-11-24 12:37:30.720861 INFO::Fitting model to feature number 52, Botryobasidium
+2024-11-24 12:37:30.726972 INFO::Fitting model to feature number 53, Botrytis
+2024-11-24 12:37:30.732986 INFO::Fitting model to feature number 54, Branch01_gen_Incertae_sedis
+2024-11-24 12:37:30.739267 INFO::Fitting model to feature number 55, Bryochiton
+2024-11-24 12:37:30.744227 INFO::Fitting model to feature number 56, Buckleyzyma
+2024-11-24 12:37:30.750021 INFO::Fitting model to feature number 57, Burgoa
+2024-11-24 12:37:30.754774 INFO::Fitting model to feature number 58, Byssoporia
+2024-11-24 12:37:30.7618 INFO::Fitting model to feature number 59, Cadophora
+2024-11-24 12:37:30.766974 INFO::Fitting model to feature number 60, Calcarisporium
+2024-11-24 12:37:30.772622 INFO::Fitting model to feature number 61, Calophoma
+2024-11-24 12:37:30.777416 INFO::Fitting model to feature number 62, Calycellina
+2024-11-24 12:37:30.782791 INFO::Fitting model to feature number 63, Calycina
+2024-11-24 12:37:30.787673 INFO::Fitting model to feature number 64, Calyptella
+2024-11-24 12:37:30.793886 INFO::Fitting model to feature number 65, Camptobasidiaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.799196 INFO::Fitting model to feature number 66, Camptobasidium
+2024-11-24 12:37:30.805293 INFO::Fitting model to feature number 67, Candida
+2024-11-24 12:37:30.810797 INFO::Fitting model to feature number 68, Cantharellales_gen_Incertae_sedis
+2024-11-24 12:37:30.815846 INFO::Fitting model to feature number 69, Cantharellula
+2024-11-24 12:37:30.820939 INFO::Fitting model to feature number 70, Capnodiales_gen_Incertae_sedis
+2024-11-24 12:37:30.826219 INFO::Fitting model to feature number 71, Capronia
+2024-11-24 12:37:30.831494 INFO::Fitting model to feature number 72, Cenangiaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.838303 INFO::Fitting model to feature number 73, Cenangium
+2024-11-24 12:37:30.843309 INFO::Fitting model to feature number 74, Cenococcum
+2024-11-24 12:37:30.848691 INFO::Fitting model to feature number 75, Cephalosporium
+2024-11-24 12:37:30.872699 INFO::Fitting model to feature number 76, Cephalothecaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.881436 INFO::Fitting model to feature number 77, Cephalotrichum
+2024-11-24 12:37:30.901861 INFO::Fitting model to feature number 78, Ceraceomyces
+2024-11-24 12:37:30.908604 INFO::Fitting model to feature number 79, Ceratellopsis
+2024-11-24 12:37:30.955698 INFO::Fitting model to feature number 80, Ceratobasidiaceae_gen_Incertae_sedis
+2024-11-24 12:37:30.96744 INFO::Fitting model to feature number 81, Ceratobasidium
+2024-11-24 12:37:30.972529 INFO::Fitting model to feature number 82, Chaetospermum
+2024-11-24 12:37:30.977996 INFO::Fitting model to feature number 83, Chaetosphaeria
+2024-11-24 12:37:30.986729 INFO::Fitting model to feature number 84, Chaetothyriales_gen_Incertae_sedis
+2024-11-24 12:37:30.993116 INFO::Fitting model to feature number 85, Chalara
+2024-11-24 12:37:30.999894 INFO::Fitting model to feature number 86, Chloridium
+2024-11-24 12:37:31.005636 INFO::Fitting model to feature number 87, Chroogomphus
+2024-11-24 12:37:31.012402 INFO::Fitting model to feature number 88, Chytridiales_gen_Incertae_sedis
+2024-11-24 12:37:31.033667 INFO::Fitting model to feature number 89, Chytridiomycota_gen_Incertae_sedis
+2024-11-24 12:37:31.044106 INFO::Fitting model to feature number 90, Ciboria
+2024-11-24 12:37:31.055047 INFO::Fitting model to feature number 91, Ciliolarina
+2024-11-24 12:37:31.069639 INFO::Fitting model to feature number 92, Cistella
+2024-11-24 12:37:31.075712 INFO::Fitting model to feature number 93, Cladophialophora
+2024-11-24 12:37:31.085423 INFO::Fitting model to feature number 94, Cladoriellaceae_gen_Incertae_sedis
+2024-11-24 12:37:31.091354 INFO::Fitting model to feature number 95, Cladosporium
+2024-11-24 12:37:31.097497 INFO::Fitting model to feature number 96, Claroideoglomus
+2024-11-24 12:37:31.105557 INFO::Fitting model to feature number 97, Claussenomyces
+2024-11-24 12:37:31.111106 INFO::Fitting model to feature number 98, Clavaria
+2024-11-24 12:37:31.116376 INFO::Fitting model to feature number 99, Clavariaceae_gen_Incertae_sedis
+2024-11-24 12:37:31.122653 INFO::Fitting model to feature number 100, Clavulina
+2024-11-24 12:37:31.129717 INFO::Fitting model to feature number 101, Clavulinopsis
+2024-11-24 12:37:31.135912 INFO::Fitting model to feature number 102, Clitocybe
+2024-11-24 12:37:31.146156 INFO::Fitting model to feature number 103, Coccomyces
+2024-11-24 12:37:31.152019 INFO::Fitting model to feature number 104, Coleophoma
+2024-11-24 12:37:31.308294 INFO::Fitting model to feature number 105, Coleroa
+2024-11-24 12:37:31.317181 INFO::Fitting model to feature number 106, Colletotrichum
+2024-11-24 12:37:31.325815 INFO::Fitting model to feature number 107, Collophorina
+2024-11-24 12:37:31.332336 INFO::Fitting model to feature number 108, Colpoma
+2024-11-24 12:37:31.339808 INFO::Fitting model to feature number 109, Comoclathris
+2024-11-24 12:37:31.346428 INFO::Fitting model to feature number 110, Coniochaeta
+2024-11-24 12:37:31.352758 INFO::Fitting model to feature number 111, Coniochaetaceae_gen_Incertae_sedis
+2024-11-24 12:37:31.358095 INFO::Fitting model to feature number 112, Coniochaetales_gen_Incertae_sedis
+2024-11-24 12:37:31.36447 INFO::Fitting model to feature number 113, Coprinopsis
+2024-11-24 12:37:31.371939 INFO::Fitting model to feature number 114, Coprinus
+2024-11-24 12:37:31.379006 INFO::Fitting model to feature number 115, Cortinarius
+2024-11-24 12:37:31.384139 INFO::Fitting model to feature number 116, Cosmospora
+2024-11-24 12:37:31.390031 INFO::Fitting model to feature number 117, Crocicreas
+2024-11-24 12:37:31.395529 INFO::Fitting model to feature number 118, Cryptococcus
+2024-11-24 12:37:31.400794 INFO::Fitting model to feature number 119, Cryptodiscus
+2024-11-24 12:37:31.407894 INFO::Fitting model to feature number 120, Cryptosporiopsis
+2024-11-24 12:37:31.416164 INFO::Fitting model to feature number 121, Cutaneotrichosporon
+2024-11-24 12:37:31.422587 INFO::Fitting model to feature number 122, Cyathicula
+2024-11-24 12:37:31.428264 INFO::Fitting model to feature number 123, Cyphellophora
+2024-11-24 12:37:31.433185 INFO::Fitting model to feature number 124, Cyphellophoraceae_gen_Incertae_sedis
+2024-11-24 12:37:31.437824 INFO::Fitting model to feature number 125, Cystobasidiales_gen_Incertae_sedis
+2024-11-24 12:37:31.445219 INFO::Fitting model to feature number 126, Cystobasidiomycetes_gen_Incertae_sedis
+2024-11-24 12:37:31.452512 INFO::Fitting model to feature number 127, Cystobasidium
+2024-11-24 12:37:32.15011 INFO::Fitting model to feature number 128, Cystoderma
+2024-11-24 12:37:32.156422 INFO::Fitting model to feature number 129, Cystofilobasidiales_gen_Incertae_sedis
+2024-11-24 12:37:32.16263 INFO::Fitting model to feature number 130, Cystofilobasidium
+2024-11-24 12:37:32.167519 INFO::Fitting model to feature number 131, Cytospora
+2024-11-24 12:37:32.175419 INFO::Fitting model to feature number 132, Dactylella
+2024-11-24 12:37:32.182191 INFO::Fitting model to feature number 133, Dactylellina
+2024-11-24 12:37:32.189937 INFO::Fitting model to feature number 134, Dactylospora
+2024-11-24 12:37:32.313318 INFO::Fitting model to feature number 135, Davidhawksworthia
+2024-11-24 12:37:32.323997 INFO::Fitting model to feature number 136, Dermateaceae_gen_Incertae_sedis
+2024-11-24 12:37:32.330584 INFO::Fitting model to feature number 137, Dermea
+2024-11-24 12:37:32.33656 INFO::Fitting model to feature number 138, Derxomyces
+2024-11-24 12:37:32.343618 INFO::Fitting model to feature number 139, Devriesia
+2024-11-24 12:37:32.348736 INFO::Fitting model to feature number 140, Diademospora
+2024-11-24 12:37:32.354119 INFO::Fitting model to feature number 141, Diaporthe
+2024-11-24 12:37:32.362244 INFO::Fitting model to feature number 142, Diatrype
+2024-11-24 12:37:33.052906 INFO::Fitting model to feature number 143, Dictyolus
+2024-11-24 12:37:33.059374 INFO::Fitting model to feature number 144, Dictyosporiaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.065763 INFO::Fitting model to feature number 145, Diddensiella
+2024-11-24 12:37:33.071958 INFO::Fitting model to feature number 146, Didymella
+2024-11-24 12:37:33.078937 INFO::Fitting model to feature number 147, Dioszegia
+2024-11-24 12:37:33.085741 INFO::Fitting model to feature number 148, Discosia
+2024-11-24 12:37:33.092268 INFO::Fitting model to feature number 149, Dissoderma
+2024-11-24 12:37:33.098242 INFO::Fitting model to feature number 150, Dissophora
+2024-11-24 12:37:33.106837 INFO::Fitting model to feature number 151, Dominikia
+2024-11-24 12:37:33.112361 INFO::Fitting model to feature number 152, Dothideales_gen_Incertae_sedis
+2024-11-24 12:37:33.120073 INFO::Fitting model to feature number 153, Dothiora
+2024-11-24 12:37:33.125478 INFO::Fitting model to feature number 154, Dothiorella
+2024-11-24 12:37:33.131096 INFO::Fitting model to feature number 155, Drechmeria
+2024-11-24 12:37:33.137594 INFO::Fitting model to feature number 156, Elasticomyces
+2024-11-24 12:37:33.145155 INFO::Fitting model to feature number 157, Elsinoaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.150957 INFO::Fitting model to feature number 158, Endogonales_gen_Incertae_sedis
+2024-11-24 12:37:33.156442 INFO::Fitting model to feature number 159, Endogonomycetes_gen_Incertae_sedis
+2024-11-24 12:37:33.16356 INFO::Fitting model to feature number 160, Entimomentora
+2024-11-24 12:37:33.169138 INFO::Fitting model to feature number 161, Entocybe
+2024-11-24 12:37:33.174695 INFO::Fitting model to feature number 162, Entoloma
+2024-11-24 12:37:33.180686 INFO::Fitting model to feature number 163, Entomortierella
+2024-11-24 12:37:33.187167 INFO::Fitting model to feature number 164, Entorrhizaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.194759 INFO::Fitting model to feature number 165, Eocronartium
+2024-11-24 12:37:33.20029 INFO::Fitting model to feature number 166, Epibryon
+2024-11-24 12:37:33.206363 INFO::Fitting model to feature number 167, Epicoccum
+2024-11-24 12:37:33.211975 INFO::Fitting model to feature number 168, Eurotiales_gen_Incertae_sedis
+2024-11-24 12:37:33.21872 INFO::Fitting model to feature number 169, Exobasidium
+2024-11-24 12:37:33.224176 INFO::Fitting model to feature number 170, Exophiala
+2024-11-24 12:37:33.229834 INFO::Fitting model to feature number 171, Extremus
+2024-11-24 12:37:33.237494 INFO::Fitting model to feature number 172, Fayodia
+2024-11-24 12:37:33.242575 INFO::Fitting model to feature number 173, Filobasidiales_gen_Incertae_sedis
+2024-11-24 12:37:33.248243 INFO::Fitting model to feature number 174, Filobasidiella
+2024-11-24 12:37:33.255589 INFO::Fitting model to feature number 175, Filobasidium
+2024-11-24 12:37:33.261686 INFO::Fitting model to feature number 176, Flagellospora
+2024-11-24 12:37:33.267372 INFO::Fitting model to feature number 177, Flammula
+2024-11-24 12:37:33.27301 INFO::Fitting model to feature number 178, Fomes
+2024-11-24 12:37:33.286432 INFO::Fitting model to feature number 179, Fungi_gen_Incertae_sedis
+2024-11-24 12:37:33.294047 INFO::Fitting model to feature number 180, Fusarium
+2024-11-24 12:37:33.300295 INFO::Fitting model to feature number 181, Fuscolachnum
+2024-11-24 12:37:33.305675 INFO::Fitting model to feature number 182, Fusidium
+2024-11-24 12:37:33.31061 INFO::Fitting model to feature number 183, Galerina
+2024-11-24 12:37:33.319348 INFO::Fitting model to feature number 184, Gamsia
+2024-11-24 12:37:33.325353 INFO::Fitting model to feature number 185, Geminibasidium
+2024-11-24 12:37:33.330367 INFO::Fitting model to feature number 186, Genolevuria
+2024-11-24 12:37:33.337864 INFO::Fitting model to feature number 187, Geoglossales_gen_Incertae_sedis
+2024-11-24 12:37:33.344432 INFO::Fitting model to feature number 188, Geomyces
+2024-11-24 12:37:33.352769 INFO::Fitting model to feature number 189, Geopora
+2024-11-24 12:37:33.361186 INFO::Fitting model to feature number 190, Gloeopycnis
+2024-11-24 12:37:33.366954 INFO::Fitting model to feature number 191, Glomeromycota_gen_Incertae_sedis
+2024-11-24 12:37:33.372535 INFO::Fitting model to feature number 192, Glutinomyces
+2024-11-24 12:37:33.378585 INFO::Fitting model to feature number 193, Goffeauzyma
+2024-11-24 12:37:33.388779 INFO::Fitting model to feature number 194, Gorgomyces
+2024-11-24 12:37:33.39605 INFO::Fitting model to feature number 195, Gryganskiella
+2024-11-24 12:37:33.402076 INFO::Fitting model to feature number 196, GS01_phy_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:37:33.407556 INFO::Fitting model to feature number 197, GS02_gen_Incertae_sedis
+2024-11-24 12:37:33.414968 INFO::Fitting model to feature number 198, GS03_gen_Incertae_sedis
+2024-11-24 12:37:33.425835 INFO::Fitting model to feature number 199, GS04_gen_Incertae_sedis
+2024-11-24 12:37:33.432727 INFO::Fitting model to feature number 200, GS05_gen_Incertae_sedis
+2024-11-24 12:37:33.439996 INFO::Fitting model to feature number 201, GS08_gen_Incertae_sedis
+2024-11-24 12:37:33.448212 INFO::Fitting model to feature number 202, GS10_gen_Incertae_sedis
+2024-11-24 12:37:33.457878 INFO::Fitting model to feature number 203, GS11_gen_Incertae_sedis
+2024-11-24 12:37:33.478371 INFO::Fitting model to feature number 204, GS12_gen_Incertae_sedis
+2024-11-24 12:37:33.486008 INFO::Fitting model to feature number 205, GS14_gen_Incertae_sedis
+2024-11-24 12:37:33.492183 INFO::Fitting model to feature number 206, GS15_gen_Incertae_sedis
+2024-11-24 12:37:33.502144 INFO::Fitting model to feature number 207, GS18_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:37:33.508413 INFO::Fitting model to feature number 208, GS21_gen_Incertae_sedis
+2024-11-24 12:37:33.513898 INFO::Fitting model to feature number 209, GS22_gen_Incertae_sedis
+2024-11-24 12:37:33.519565 INFO::Fitting model to feature number 210, GS26_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:37:33.525904 INFO::Fitting model to feature number 211, GS27_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:37:33.533864 INFO::Fitting model to feature number 212, GS35_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:37:33.540491 INFO::Fitting model to feature number 213, Gymnopilus
+2024-11-24 12:37:33.546397 INFO::Fitting model to feature number 214, Gymnopus
+2024-11-24 12:37:33.553451 INFO::Fitting model to feature number 215, Gyromitra
+2024-11-24 12:37:33.558771 INFO::Fitting model to feature number 216, Hamamotoa
+2024-11-24 12:37:33.566025 INFO::Fitting model to feature number 217, Hamatocanthoscypha
+2024-11-24 12:37:33.571002 INFO::Fitting model to feature number 218, Hannaella
+2024-11-24 12:37:33.577349 INFO::Fitting model to feature number 219, Haplographium
+2024-11-24 12:37:33.58227 INFO::Fitting model to feature number 220, Haptocillium
+2024-11-24 12:37:33.587809 INFO::Fitting model to feature number 221, Hebeloma
+2024-11-24 12:37:33.593695 INFO::Fitting model to feature number 222, Helicogoniaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.600525 INFO::Fitting model to feature number 223, Helotiaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.605549 INFO::Fitting model to feature number 224, Helotiales_gen_Incertae_sedis
+2024-11-24 12:37:33.610785 INFO::Fitting model to feature number 225, Helvella
+2024-11-24 12:37:33.616355 INFO::Fitting model to feature number 226, Herpotrichia
+2024-11-24 12:37:33.621627 INFO::Fitting model to feature number 227, Herpotrichiellaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.627722 INFO::Fitting model to feature number 228, Heterocephalacria
+2024-11-24 12:37:33.6365 INFO::Fitting model to feature number 229, Heterophoma
+2024-11-24 12:37:33.643918 INFO::Fitting model to feature number 230, Hirsutella
+2024-11-24 12:37:33.65274 INFO::Fitting model to feature number 231, Hormonema
+2024-11-24 12:37:33.657793 INFO::Fitting model to feature number 232, Humicolopsis
+2024-11-24 12:37:33.663106 INFO::Fitting model to feature number 233, Hyalodendriella
+2024-11-24 12:37:33.668382 INFO::Fitting model to feature number 234, Hyalorbilia
+2024-11-24 12:37:33.676435 INFO::Fitting model to feature number 235, Hyaloscypha
+2024-11-24 12:37:33.681793 INFO::Fitting model to feature number 236, Hyaloscyphaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.686439 INFO::Fitting model to feature number 237, Hygrophorus
+2024-11-24 12:37:33.691327 INFO::Fitting model to feature number 238, Hymenochaetales_gen_Incertae_sedis
+2024-11-24 12:37:33.69703 INFO::Fitting model to feature number 239, Hymenoscyphus
+2024-11-24 12:37:33.70441 INFO::Fitting model to feature number 240, Hyphodiscus
+2024-11-24 12:37:33.711193 INFO::Fitting model to feature number 241, Hyphodontia
+2024-11-24 12:37:33.716007 INFO::Fitting model to feature number 242, Hyphodontiella
+2024-11-24 12:37:33.721258 INFO::Fitting model to feature number 243, Hypholoma
+2024-11-24 12:37:33.725941 INFO::Fitting model to feature number 244, Hypochnicium
+2024-11-24 12:37:33.732043 INFO::Fitting model to feature number 245, Hypocreales_gen_Incertae_sedis
+2024-11-24 12:37:33.74043 INFO::Fitting model to feature number 246, Hypogymnia
+2024-11-24 12:37:33.747594 INFO::Fitting model to feature number 247, Hypomyces
+2024-11-24 12:37:33.754033 INFO::Fitting model to feature number 248, Incertomyces
+2024-11-24 12:37:33.761849 INFO::Fitting model to feature number 249, Infundichalara
+2024-11-24 12:37:33.770269 INFO::Fitting model to feature number 250, Inocybe
+2024-11-24 12:37:33.778605 INFO::Fitting model to feature number 251, Kabatiella
+2024-11-24 12:37:33.789283 INFO::Fitting model to feature number 252, Karstenia
+2024-11-24 12:37:33.797064 INFO::Fitting model to feature number 253, Keissleriella
+2024-11-24 12:37:33.802234 INFO::Fitting model to feature number 254, Keithomyces
+2024-11-24 12:37:33.807916 INFO::Fitting model to feature number 255, Kickxellomycota_gen_Incertae_sedis
+2024-11-24 12:37:33.812725 INFO::Fitting model to feature number 256, Knufia
+2024-11-24 12:37:33.819267 INFO::Fitting model to feature number 257, Kockovaella
+2024-11-24 12:37:33.82418 INFO::Fitting model to feature number 258, Kodamaea
+2024-11-24 12:37:33.83005 INFO::Fitting model to feature number 259, Krasilnikovozyma
+2024-11-24 12:37:33.835735 INFO::Fitting model to feature number 260, Kuehneromyces
+2024-11-24 12:37:33.841098 INFO::Fitting model to feature number 261, Kurtzmaniella
+2024-11-24 12:37:33.846316 INFO::Fitting model to feature number 262, Kurtzmanomyces
+2024-11-24 12:37:33.852652 INFO::Fitting model to feature number 263, Laburnicola
+2024-11-24 12:37:33.858499 INFO::Fitting model to feature number 264, Laccaria
+2024-11-24 12:37:33.864139 INFO::Fitting model to feature number 265, Lachnellula
+2024-11-24 12:37:33.870363 INFO::Fitting model to feature number 266, Lachnum
+2024-11-24 12:37:33.876804 INFO::Fitting model to feature number 267, Lacrymaria
+2024-11-24 12:37:33.883126 INFO::Fitting model to feature number 268, Lactarius
+2024-11-24 12:37:33.889175 INFO::Fitting model to feature number 269, Laetinaevia
+2024-11-24 12:37:33.894689 INFO::Fitting model to feature number 270, Lapidomyces
+2024-11-24 12:37:33.902189 INFO::Fitting model to feature number 271, Lecanicillium
+2024-11-24 12:37:33.907378 INFO::Fitting model to feature number 272, Lecanoromycetes_gen_Incertae_sedis
+2024-11-24 12:37:33.912236 INFO::Fitting model to feature number 273, Leccinum
+2024-11-24 12:37:33.916869 INFO::Fitting model to feature number 274, Lectera
+2024-11-24 12:37:33.922196 INFO::Fitting model to feature number 275, Lecythophora
+2024-11-24 12:37:33.928258 INFO::Fitting model to feature number 276, Lentitheciaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.934482 INFO::Fitting model to feature number 277, Leohumicola
+2024-11-24 12:37:33.940599 INFO::Fitting model to feature number 278, Leotiaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.945458 INFO::Fitting model to feature number 279, Leotiales_gen_Incertae_sedis
+2024-11-24 12:37:33.950248 INFO::Fitting model to feature number 280, Leotiomycetes_gen_Incertae_sedis
+2024-11-24 12:37:33.955818 INFO::Fitting model to feature number 281, Leptobacillium
+2024-11-24 12:37:33.960559 INFO::Fitting model to feature number 282, Leptodontidiaceae_gen_Incertae_sedis
+2024-11-24 12:37:33.966145 INFO::Fitting model to feature number 283, Leptodontidium
+2024-11-24 12:37:33.973066 INFO::Fitting model to feature number 284, Leptodophora
+2024-11-24 12:37:33.979602 INFO::Fitting model to feature number 285, Leptosphaerulina
+2024-11-24 12:37:33.985756 INFO::Fitting model to feature number 286, Leptosporomyces
+2024-11-24 12:37:33.991056 INFO::Fitting model to feature number 287, Leucogyrophana
+2024-11-24 12:37:33.996644 INFO::Fitting model to feature number 288, Leuconeurospora
+2024-11-24 12:37:34.127431 INFO::Fitting model to feature number 289, Leucosporidiales_gen_Incertae_sedis
+2024-11-24 12:37:34.134032 INFO::Fitting model to feature number 290, Leucosporidium
+2024-11-24 12:37:34.139211 INFO::Fitting model to feature number 291, Liangia
+2024-11-24 12:37:34.145038 INFO::Fitting model to feature number 292, Libkindia
+2024-11-24 12:37:34.149823 INFO::Fitting model to feature number 293, Linnemannia
+2024-11-24 12:37:34.155483 INFO::Fitting model to feature number 294, Lipomycetaceae_gen_Incertae_sedis
+2024-11-24 12:37:34.162061 INFO::Fitting model to feature number 295, Lobulomycetales_gen_Incertae_sedis
+2024-11-24 12:37:34.168 INFO::Fitting model to feature number 296, Lophium
+2024-11-24 12:37:34.903378 INFO::Fitting model to feature number 297, Lophodermium
+2024-11-24 12:37:34.909373 INFO::Fitting model to feature number 298, Luellia
+2024-11-24 12:37:34.915352 INFO::Fitting model to feature number 299, Lycoperdon
+2024-11-24 12:37:34.920174 INFO::Fitting model to feature number 300, Lyomyces
+2024-11-24 12:37:34.926004 INFO::Fitting model to feature number 301, Lyophyllaceae_gen_Incertae_sedis
+2024-11-24 12:37:34.933648 INFO::Fitting model to feature number 302, Malassezia
+2024-11-24 12:37:34.942223 INFO::Fitting model to feature number 303, Mallocybe
+2024-11-24 12:37:34.947832 INFO::Fitting model to feature number 304, Melanommataceae_gen_Incertae_sedis
+2024-11-24 12:37:34.95303 INFO::Fitting model to feature number 305, Meliniomyces
+2024-11-24 12:37:34.957945 INFO::Fitting model to feature number 306, Metapochonia
+2024-11-24 12:37:34.965457 INFO::Fitting model to feature number 307, Metarhizium
+2024-11-24 12:37:34.970147 INFO::Fitting model to feature number 308, Micarea
+2024-11-24 12:37:34.976373 INFO::Fitting model to feature number 309, Microbotryomycetes_gen_Incertae_sedis
+2024-11-24 12:37:34.981403 INFO::Fitting model to feature number 310, Microdochium
+2024-11-24 12:37:34.986918 INFO::Fitting model to feature number 311, Micropeltidaceae_gen_Incertae_sedis
+2024-11-24 12:37:34.992059 INFO::Fitting model to feature number 312, Microsporomycetaceae_gen_Incertae_sedis
+2024-11-24 12:37:35.001093 INFO::Fitting model to feature number 313, Mollisia
+2024-11-24 12:37:35.006429 INFO::Fitting model to feature number 314, Monoblepharomycota_gen_Incertae_sedis
+2024-11-24 12:37:35.013656 INFO::Fitting model to feature number 315, Mortierella
+2024-11-24 12:37:35.019344 INFO::Fitting model to feature number 316, Mortierellales_gen_Incertae_sedis
+2024-11-24 12:37:35.024843 INFO::Fitting model to feature number 317, Mortierellomycetes_gen_Incertae_sedis
+2024-11-24 12:37:35.030477 INFO::Fitting model to feature number 318, Mrakia
+2024-11-24 12:37:35.036547 INFO::Fitting model to feature number 319, Mrakiaceae_gen_Incertae_sedis
+2024-11-24 12:37:35.04302 INFO::Fitting model to feature number 320, Mucor
+2024-11-24 12:37:35.049099 INFO::Fitting model to feature number 321, Mucorales_gen_Incertae_sedis
+2024-11-24 12:37:35.177449 INFO::Fitting model to feature number 322, Muriphaeosphaeria
+2024-11-24 12:37:35.184235 INFO::Fitting model to feature number 323, Mycena
+2024-11-24 12:37:35.189284 INFO::Fitting model to feature number 324, Mycenaceae_gen_Incertae_sedis
+2024-11-24 12:37:35.194046 INFO::Fitting model to feature number 325, Mycoarthris
+2024-11-24 12:37:35.19844 INFO::Fitting model to feature number 326, Mycobilimbia
+2024-11-24 12:37:35.202887 INFO::Fitting model to feature number 327, Mycosphaerellales_gen_Incertae_sedis
+2024-11-24 12:37:35.207643 INFO::Fitting model to feature number 328, Mycosymbioces
+2024-11-24 12:37:35.212373 INFO::Fitting model to feature number 329, Myriosclerotinia
+2024-11-24 12:37:35.217372 INFO::Fitting model to feature number 330, Myrmecridium
+2024-11-24 12:37:35.222665 INFO::Fitting model to feature number 331, Myrothecium
+2024-11-24 12:37:35.95851 INFO::Fitting model to feature number 332, Mystinarius
+2024-11-24 12:37:35.963157 INFO::Fitting model to feature number 333, Mytilinidiales_gen_Incertae_sedis
+2024-11-24 12:37:35.968011 INFO::Fitting model to feature number 334, Mytilinidion
+2024-11-24 12:37:35.972452 INFO::Fitting model to feature number 335, Myxotrichaceae_gen_Incertae_sedis
+2024-11-24 12:37:35.976582 INFO::Fitting model to feature number 336, Myxozyma
+2024-11-24 12:37:35.981255 INFO::Fitting model to feature number 337, Nadsonia
+2024-11-24 12:37:35.988546 INFO::Fitting model to feature number 338, Naganishia
+2024-11-24 12:37:35.992418 INFO::Fitting model to feature number 339, Nectriaceae_gen_Incertae_sedis
+2024-11-24 12:37:36.002088 INFO::Fitting model to feature number 340, Nectriella
+2024-11-24 12:37:36.006811 INFO::Fitting model to feature number 341, Nectriopsis
+2024-11-24 12:37:36.016355 INFO::Fitting model to feature number 342, Neobulgaria
+2024-11-24 12:37:36.022007 INFO::Fitting model to feature number 343, Neonectria
+2024-11-24 12:37:36.026416 INFO::Fitting model to feature number 344, Neosetophoma
+2024-11-24 12:37:36.0319 INFO::Fitting model to feature number 345, Neurospora
+2024-11-24 12:37:36.036417 INFO::Fitting model to feature number 346, Nothodactylaria
+2024-11-24 12:37:36.040635 INFO::Fitting model to feature number 347, Occultifur
+2024-11-24 12:37:36.044232 INFO::Fitting model to feature number 348, Ochroconis
+2024-11-24 12:37:36.050959 INFO::Fitting model to feature number 349, Oidiodendron
+2024-11-24 12:37:36.056503 INFO::Fitting model to feature number 350, Oliveonia
+2024-11-24 12:37:36.196419 INFO::Fitting model to feature number 351, Ophiocordyceps
+2024-11-24 12:37:36.20087 INFO::Fitting model to feature number 352, Ophiocordycipitaceae_gen_Incertae_sedis
+2024-11-24 12:37:36.206714 INFO::Fitting model to feature number 353, Orbiliaceae_gen_Incertae_sedis
+2024-11-24 12:37:36.211529 INFO::Fitting model to feature number 354, Orbiliales_gen_Incertae_sedis
+2024-11-24 12:37:36.217127 INFO::Fitting model to feature number 355, Paraleptosphaeria
+2024-11-24 12:37:36.221227 INFO::Fitting model to feature number 356, Paraphaeosphaeria
+2024-11-24 12:37:36.226968 INFO::Fitting model to feature number 357, Paraphoma
+2024-11-24 12:37:36.232599 INFO::Fitting model to feature number 358, Paratritirachium
+2024-11-24 12:37:36.236344 INFO::Fitting model to feature number 359, Parmeliopsis
+2024-11-24 12:37:36.241651 INFO::Fitting model to feature number 360, Patellariales_gen_Incertae_sedis
+2024-11-24 12:37:36.246694 INFO::Fitting model to feature number 361, Paxillus
+2024-11-24 12:37:36.250807 INFO::Fitting model to feature number 362, Pectenia
+2024-11-24 12:37:36.254779 INFO::Fitting model to feature number 363, Peltigera
+2024-11-24 12:37:36.258598 INFO::Fitting model to feature number 364, Penicillium
+2024-11-24 12:37:36.26299 INFO::Fitting model to feature number 365, Peniophorella
+2024-11-24 12:37:36.2671 INFO::Fitting model to feature number 366, Perennicordyceps
+2024-11-24 12:37:36.27292 INFO::Fitting model to feature number 367, Pezicula
+2024-11-24 12:37:37.024527 INFO::Fitting model to feature number 368, Pezizellaster
+2024-11-24 12:37:37.031561 INFO::Fitting model to feature number 369, Pezizomycotina_gen_Incertae_sedis
+2024-11-24 12:37:37.036252 INFO::Fitting model to feature number 370, Pezoloma
+2024-11-24 12:37:37.040247 INFO::Fitting model to feature number 371, Phacidiaceae_gen_Incertae_sedis
+2024-11-24 12:37:37.044952 INFO::Fitting model to feature number 372, Phacidiales_gen_Incertae_sedis
+2024-11-24 12:37:37.049579 INFO::Fitting model to feature number 373, Phacidium
+2024-11-24 12:37:37.053996 INFO::Fitting model to feature number 374, Phaeococcomyces
+2024-11-24 12:37:37.058929 INFO::Fitting model to feature number 375, Phaeosphaeria
+2024-11-24 12:37:37.064476 INFO::Fitting model to feature number 376, Phaeotheca
+2024-11-24 12:37:37.069474 INFO::Fitting model to feature number 377, Phaeothecaceae_gen_Incertae_sedis
+2024-11-24 12:37:37.075504 INFO::Fitting model to feature number 378, Phaeotremella
+2024-11-24 12:37:37.081003 INFO::Fitting model to feature number 379, Phaeotrichum
+2024-11-24 12:37:37.089279 INFO::Fitting model to feature number 380, Phenoliferia
+2024-11-24 12:37:37.098414 INFO::Fitting model to feature number 381, Phialocephala
+2024-11-24 12:37:37.102797 INFO::Fitting model to feature number 382, Phialomyces
+2024-11-24 12:37:37.106375 INFO::Fitting model to feature number 383, Phlegmacium
+2024-11-24 12:37:37.110087 INFO::Fitting model to feature number 384, Pholiota
+2024-11-24 12:37:37.115037 INFO::Fitting model to feature number 385, Phomatospora
+2024-11-24 12:37:37.119547 INFO::Fitting model to feature number 386, Piloderma
+2024-11-24 12:37:37.125093 INFO::Fitting model to feature number 387, Piptocephalidaceae_gen_Incertae_sedis
+2024-11-24 12:37:37.255359 INFO::Fitting model to feature number 388, Piptocephalis
+2024-11-24 12:37:37.260517 INFO::Fitting model to feature number 389, Piskurozyma
+2024-11-24 12:37:37.265246 INFO::Fitting model to feature number 390, Plectosphaerella
+2024-11-24 12:37:37.270603 INFO::Fitting model to feature number 391, Plectosphaerellaceae_gen_Incertae_sedis
+2024-11-24 12:37:37.275229 INFO::Fitting model to feature number 392, Pleotrichocladium
+2024-11-24 12:37:37.279319 INFO::Fitting model to feature number 393, Pluteus
+2024-11-24 12:37:37.283641 INFO::Fitting model to feature number 394, Pochonia
+2024-11-24 12:37:37.289363 INFO::Fitting model to feature number 395, Podila
+2024-11-24 12:37:37.295483 INFO::Fitting model to feature number 396, Podospora
+2024-11-24 12:37:37.301705 INFO::Fitting model to feature number 397, Polyozellus
+2024-11-24 12:37:37.308345 INFO::Fitting model to feature number 398, Polyphilus
+2024-11-24 12:37:37.314901 INFO::Fitting model to feature number 399, Polyscytalum
+2024-11-24 12:37:37.32109 INFO::Fitting model to feature number 400, Powellomycetaceae_gen_Incertae_sedis
+2024-11-24 12:37:37.32583 INFO::Fitting model to feature number 401, Preussia
+2024-11-24 12:37:37.330611 INFO::Fitting model to feature number 402, Psathyrella
+2024-11-24 12:37:37.33719 INFO::Fitting model to feature number 403, Pseudeurotiaceae_gen_Incertae_sedis
+2024-11-24 12:37:37.340906 INFO::Fitting model to feature number 404, Pseudeurotium
+2024-11-24 12:37:37.347649 INFO::Fitting model to feature number 405, Pseudoanungitea
+2024-11-24 12:37:38.21391 INFO::Fitting model to feature number 406, Pseudoarthrographis
+2024-11-24 12:37:38.223536 INFO::Fitting model to feature number 407, Pseudocoleophoma
+2024-11-24 12:37:38.229618 INFO::Fitting model to feature number 408, Pseudocyclothyriella
+2024-11-24 12:37:38.235515 INFO::Fitting model to feature number 409, Pseudodictyosporium
+2024-11-24 12:37:38.240102 INFO::Fitting model to feature number 410, Pseudogymnoascus
+2024-11-24 12:37:38.244782 INFO::Fitting model to feature number 411, Pseudohelotium
+2024-11-24 12:37:38.250212 INFO::Fitting model to feature number 412, Pseudohyphozyma
+2024-11-24 12:37:38.255236 INFO::Fitting model to feature number 413, Pseudoplectania
+2024-11-24 12:37:38.259655 INFO::Fitting model to feature number 414, Pseudosigmoidea
+2024-11-24 12:37:38.265855 INFO::Fitting model to feature number 415, Pseudovalsaria
+2024-11-24 12:37:38.270058 INFO::Fitting model to feature number 416, Psilolechiaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.274991 INFO::Fitting model to feature number 417, Psoroglaena
+2024-11-24 12:37:38.278698 INFO::Fitting model to feature number 418, Pucciniales_gen_Incertae_sedis
+2024-11-24 12:37:38.283717 INFO::Fitting model to feature number 419, Pulvinula
+2024-11-24 12:37:38.289399 INFO::Fitting model to feature number 420, Pustularia
+2024-11-24 12:37:38.295563 INFO::Fitting model to feature number 421, Pycnora
+2024-11-24 12:37:38.302317 INFO::Fitting model to feature number 422, Pyrenochaeta
+2024-11-24 12:37:38.391567 INFO::Fitting model to feature number 423, Pyronemataceae_gen_Incertae_sedis
+2024-11-24 12:37:38.400036 INFO::Fitting model to feature number 424, Pyxidiophorales_gen_Incertae_sedis
+2024-11-24 12:37:38.408837 INFO::Fitting model to feature number 425, Rachicladosporium
+2024-11-24 12:37:38.415425 INFO::Fitting model to feature number 426, Ramariopsis
+2024-11-24 12:37:38.427841 INFO::Fitting model to feature number 427, Ramophialophora
+2024-11-24 12:37:38.433011 INFO::Fitting model to feature number 428, Ramularia
+2024-11-24 12:37:38.437942 INFO::Fitting model to feature number 429, Renatobasidium
+2024-11-24 12:37:38.441884 INFO::Fitting model to feature number 430, Rhexocercosporidium
+2024-11-24 12:37:38.44602 INFO::Fitting model to feature number 431, Rhinocladiella
+2024-11-24 12:37:38.45058 INFO::Fitting model to feature number 432, Rhizidium
+2024-11-24 12:37:38.455655 INFO::Fitting model to feature number 433, Rhizophagus
+2024-11-24 12:37:38.459537 INFO::Fitting model to feature number 434, Rhizophydiales_gen_Incertae_sedis
+2024-11-24 12:37:38.463131 INFO::Fitting model to feature number 435, Rhizophydium
+2024-11-24 12:37:38.466863 INFO::Fitting model to feature number 436, Rhizopogon
+2024-11-24 12:37:38.470874 INFO::Fitting model to feature number 437, Rhizosphaera
+2024-11-24 12:37:38.474585 INFO::Fitting model to feature number 438, Rhodosporidiobolus
+2024-11-24 12:37:38.478847 INFO::Fitting model to feature number 439, Rhodotorula
+2024-11-24 12:37:38.48257 INFO::Fitting model to feature number 440, Rozellomycota_gen_Incertae_sedis
+2024-11-24 12:37:38.486645 INFO::Fitting model to feature number 441, Russula
+2024-11-24 12:37:38.490658 INFO::Fitting model to feature number 442, Rutstroemia
+2024-11-24 12:37:38.494925 INFO::Fitting model to feature number 443, Saccharomycetales_gen_Incertae_sedis
+2024-11-24 12:37:38.498983 INFO::Fitting model to feature number 444, Sagenomella
+2024-11-24 12:37:38.503404 INFO::Fitting model to feature number 445, Saitozyma
+2024-11-24 12:37:38.508108 INFO::Fitting model to feature number 446, Sakaguchia
+2024-11-24 12:37:38.511656 INFO::Fitting model to feature number 447, Samsoniella
+2024-11-24 12:37:38.515525 INFO::Fitting model to feature number 448, Sanchytriaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.519753 INFO::Fitting model to feature number 449, Sanchytrium
+2024-11-24 12:37:38.523487 INFO::Fitting model to feature number 450, Sarcopodium
+2024-11-24 12:37:38.527787 INFO::Fitting model to feature number 451, Sarea
+2024-11-24 12:37:38.531607 INFO::Fitting model to feature number 452, Schizothecium
+2024-11-24 12:37:38.535416 INFO::Fitting model to feature number 453, Sclerococcum
+2024-11-24 12:37:38.539262 INFO::Fitting model to feature number 454, Scleropezicula
+2024-11-24 12:37:38.543026 INFO::Fitting model to feature number 455, Sclerostagonospora
+2024-11-24 12:37:38.547107 INFO::Fitting model to feature number 456, Scoliciosporum
+2024-11-24 12:37:38.551833 INFO::Fitting model to feature number 457, Scutellinia
+2024-11-24 12:37:38.556083 INFO::Fitting model to feature number 458, Scytalidium
+2024-11-24 12:37:38.559878 INFO::Fitting model to feature number 459, Sebacinales_gen_Incertae_sedis
+2024-11-24 12:37:38.563343 INFO::Fitting model to feature number 460, Sepedonium
+2024-11-24 12:37:38.567065 INFO::Fitting model to feature number 461, Septoglomus
+2024-11-24 12:37:38.570965 INFO::Fitting model to feature number 462, Septoria
+2024-11-24 12:37:38.575299 INFO::Fitting model to feature number 463, Serendipita
+2024-11-24 12:37:38.579065 INFO::Fitting model to feature number 464, Serendipitaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.582854 INFO::Fitting model to feature number 465, Serpula
+2024-11-24 12:37:38.586807 INFO::Fitting model to feature number 466, Siepmannia
+2024-11-24 12:37:38.591308 INFO::Fitting model to feature number 467, Sistotrema
+2024-11-24 12:37:38.595296 INFO::Fitting model to feature number 468, Sistotremastrum
+2024-11-24 12:37:38.600925 INFO::Fitting model to feature number 469, Solicoccozyma
+2024-11-24 12:37:38.605548 INFO::Fitting model to feature number 470, Sordariales_gen_Incertae_sedis
+2024-11-24 12:37:38.609274 INFO::Fitting model to feature number 471, Sorocybe
+2024-11-24 12:37:38.61337 INFO::Fitting model to feature number 472, Sphaerulina
+2024-11-24 12:37:38.617246 INFO::Fitting model to feature number 473, Spirosphaera
+2024-11-24 12:37:38.620948 INFO::Fitting model to feature number 474, Spizellomycetales_gen_Incertae_sedis
+2024-11-24 12:37:38.625667 INFO::Fitting model to feature number 475, Sporidiobolaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.629507 INFO::Fitting model to feature number 476, Sporidiobolales_gen_Incertae_sedis
+2024-11-24 12:37:38.633207 INFO::Fitting model to feature number 477, Sporormiaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.636764 INFO::Fitting model to feature number 478, Sporormiella
+2024-11-24 12:37:38.641155 INFO::Fitting model to feature number 479, Sporothrix
+2024-11-24 12:37:38.64538 INFO::Fitting model to feature number 480, Stachybotryaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.649986 INFO::Fitting model to feature number 481, Stereocaulon
+2024-11-24 12:37:38.655206 INFO::Fitting model to feature number 482, Stilbella
+2024-11-24 12:37:38.659467 INFO::Fitting model to feature number 483, Stropharia
+2024-11-24 12:37:38.663747 INFO::Fitting model to feature number 484, Sugiyamaella
+2024-11-24 12:37:38.667442 INFO::Fitting model to feature number 485, Suillus
+2024-11-24 12:37:38.671393 INFO::Fitting model to feature number 486, Sympodiella
+2024-11-24 12:37:38.67626 INFO::Fitting model to feature number 487, Sympoventuriaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.680153 INFO::Fitting model to feature number 488, Syncephalis
+2024-11-24 12:37:38.683763 INFO::Fitting model to feature number 489, Synnemapestaloides
+2024-11-24 12:37:38.687397 INFO::Fitting model to feature number 490, Syzygospora
+2024-11-24 12:37:38.691088 INFO::Fitting model to feature number 491, Taeniolella
+2024-11-24 12:37:38.694777 INFO::Fitting model to feature number 492, Taeniospora
+2024-11-24 12:37:38.699151 INFO::Fitting model to feature number 493, Talaromyces
+2024-11-24 12:37:38.702981 INFO::Fitting model to feature number 494, Taphrina
+2024-11-24 12:37:38.706771 INFO::Fitting model to feature number 495, Tapinella
+2024-11-24 12:37:38.710818 INFO::Fitting model to feature number 496, Tausonia
+2024-11-24 12:37:38.715286 INFO::Fitting model to feature number 497, Tetracladium
+2024-11-24 12:37:38.719003 INFO::Fitting model to feature number 498, Teunomyces
+2024-11-24 12:37:38.723672 INFO::Fitting model to feature number 499, Thaxterogaster
+2024-11-24 12:37:38.728179 INFO::Fitting model to feature number 500, Thelebolus
+2024-11-24 12:37:38.731834 INFO::Fitting model to feature number 501, Thelephora
+2024-11-24 12:37:38.735566 INFO::Fitting model to feature number 502, Tolypocladium
+2024-11-24 12:37:38.739696 INFO::Fitting model to feature number 503, Tomentella
+2024-11-24 12:37:38.743612 INFO::Fitting model to feature number 504, Tomentellopsis
+2024-11-24 12:37:38.748105 INFO::Fitting model to feature number 505, Trechispora
+2024-11-24 12:37:38.752158 INFO::Fitting model to feature number 506, Trechisporales_gen_Incertae_sedis
+2024-11-24 12:37:38.755887 INFO::Fitting model to feature number 507, Tremella
+2024-11-24 12:37:38.759724 INFO::Fitting model to feature number 508, Tremellales_gen_Incertae_sedis
+2024-11-24 12:37:38.763992 INFO::Fitting model to feature number 509, Tremellodendropsidales_gen_Incertae_sedis
+2024-11-24 12:37:38.768346 INFO::Fitting model to feature number 510, Tremellomycetes_gen_Incertae_sedis
+2024-11-24 12:37:38.773319 INFO::Fitting model to feature number 511, Trichobolus
+2024-11-24 12:37:38.777518 INFO::Fitting model to feature number 512, Trichoderma
+2024-11-24 12:37:38.781669 INFO::Fitting model to feature number 513, Tricholoma
+2024-11-24 12:37:38.786187 INFO::Fitting model to feature number 514, Trichopeziza
+2024-11-24 12:37:38.790554 INFO::Fitting model to feature number 515, Trichophaea
+2024-11-24 12:37:38.795425 INFO::Fitting model to feature number 516, Trichosporiella
+2024-11-24 12:37:38.799705 INFO::Fitting model to feature number 517, Trimmatostroma
+2024-11-24 12:37:38.804184 INFO::Fitting model to feature number 518, Triscelophorus
+2024-11-24 12:37:38.808084 INFO::Fitting model to feature number 519, Truncatella
+2024-11-24 12:37:38.812023 INFO::Fitting model to feature number 520, Tulasnella
+2024-11-24 12:37:38.815581 INFO::Fitting model to feature number 521, Tylospora
+2024-11-24 12:37:38.819156 INFO::Fitting model to feature number 522, Tympanidaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.823447 INFO::Fitting model to feature number 523, Tyrannosorus
+2024-11-24 12:37:38.827605 INFO::Fitting model to feature number 524, Umbelopsidomycetes_gen_Incertae_sedis
+2024-11-24 12:37:38.831407 INFO::Fitting model to feature number 525, Umbelopsis
+2024-11-24 12:37:38.835681 INFO::Fitting model to feature number 526, Umbilicariales_gen_Incertae_sedis
+2024-11-24 12:37:38.839749 INFO::Fitting model to feature number 527, Vandijckomycella
+2024-11-24 12:37:38.844355 INFO::Fitting model to feature number 528, Venturia
+2024-11-24 12:37:38.849049 INFO::Fitting model to feature number 529, Venturiaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.853106 INFO::Fitting model to feature number 530, Verrucaria
+2024-11-24 12:37:38.857335 INFO::Fitting model to feature number 531, Verrucariaceae_gen_Incertae_sedis
+2024-11-24 12:37:38.861477 INFO::Fitting model to feature number 532, Verrucoccum
+2024-11-24 12:37:38.865245 INFO::Fitting model to feature number 533, Vestigium
+2024-11-24 12:37:38.868642 INFO::Fitting model to feature number 534, Vishniacozyma
+2024-11-24 12:37:38.873624 INFO::Fitting model to feature number 535, Volutella
+2024-11-24 12:37:38.877292 INFO::Fitting model to feature number 536, Wilcoxina
+2024-11-24 12:37:38.880575 INFO::Fitting model to feature number 537, Xenasmatella
+2024-11-24 12:37:38.884797 INFO::Fitting model to feature number 538, Xenochalara
+2024-11-24 12:37:38.888429 INFO::Fitting model to feature number 539, Xenodidymella
+2024-11-24 12:37:38.892774 INFO::Fitting model to feature number 540, Xenopolyscytalum
+2024-11-24 12:37:38.898179 INFO::Fitting model to feature number 541, Yamadamyces
+2024-11-24 12:37:38.901894 INFO::Fitting model to feature number 542, Yurkovia
+2024-11-24 12:37:38.90577 INFO::Fitting model to feature number 543, Zoopagales_gen_Incertae_sedis
+2024-11-24 12:37:38.909786 INFO::Fitting model to feature number 544, Zoopagomycota_gen_Incertae_sedis
+2024-11-24 12:37:38.9138 INFO::Fitting model to feature number 545, Zygorhynchus
+2024-11-24 12:37:38.985241 INFO::Counting total values for each feature
+2024-11-24 12:37:39.010555 INFO::Writing filtered data to file ITS1/features/filtered_data.tsv
+2024-11-24 12:37:39.027276 INFO::Writing filtered, normalized data to file ITS1/features/filtered_data_norm.tsv
+2024-11-24 12:37:39.043978 INFO::Writing filtered, normalized, transformed data to file ITS1/features/filtered_data_norm_transformed.tsv
+2024-11-24 12:37:39.061523 WARNING::Deleting existing residuals file: ITS1/fits/residuals.rds
+2024-11-24 12:37:39.064787 INFO::Writing residuals to file ITS1/fits/residuals.rds
+2024-11-24 12:37:39.070725 WARNING::Deleting existing fitted file: ITS1/fits/fitted.rds
+2024-11-24 12:37:39.072981 INFO::Writing fitted values to file ITS1/fits/fitted.rds
+2024-11-24 12:37:39.076513 INFO::Writing all results to file (ordered by increasing q-values): ITS1/all_results.tsv
+2024-11-24 12:37:39.082478 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): ITS1/significant_results.tsv
+2024-11-24 12:37:39.086677 INFO::Writing heatmap of significant results to file: ITS1/heatmap.pdf
+2024-11-24 12:37:39.095095 INFO::Writing association plots (one for each significant association) to output folder: ITS1
+2024-11-24 12:37:39.104828 INFO::Plotting associations from most to least significant, grouped by metadata
+2024-11-24 12:37:39.1063 INFO::Plotting data for metadata number 1, pH
+2024-11-24 12:37:39.109906 INFO::Creating boxplot for categorical data, pH vs Botryobasidium
+2024-11-24 12:37:42.02452 INFO::Creating boxplot for categorical data, pH vs Entomortierella
+2024-11-24 12:37:42.20462 INFO::Creating boxplot for categorical data, pH vs Pezizellaster
+2024-11-24 12:37:42.404731 INFO::Creating boxplot for categorical data, pH vs Mortierella
+2024-11-24 12:37:42.570293 INFO::Creating boxplot for categorical data, pH vs Meliniomyces
+2024-11-24 12:37:42.736777 INFO::Creating boxplot for categorical data, pH vs Acarosporales_gen_Incertae_sedis
+2024-11-24 12:37:43.067785 INFO::Creating boxplot for categorical data, pH vs Archaeorhizomyces
+2024-11-24 12:37:45.057727 INFO::Creating boxplot for categorical data, pH vs Knufia
+2024-11-24 12:37:45.246198 INFO::Creating boxplot for categorical data, pH vs Exophiala
+2024-11-24 12:37:45.410147 INFO::Creating boxplot for categorical data, pH vs Gloeopycnis
+2024-11-24 12:37:45.588702 INFO::Creating boxplot for categorical data, pH vs Epibryon
+2024-11-24 12:37:45.757913 INFO::Creating boxplot for categorical data, pH vs Podila
+2024-11-24 12:37:45.918678 INFO::Creating boxplot for categorical data, pH vs Syncephalis
+2024-11-24 12:37:46.081557 INFO::Creating boxplot for categorical data, pH vs GS21_gen_Incertae_sedis
+2024-11-24 12:37:47.297157 INFO::Creating boxplot for categorical data, pH vs Cortinarius
+2024-11-24 12:37:47.470183 INFO::Creating boxplot for categorical data, pH vs Lecanicillium
+2024-11-24 12:37:47.638922 INFO::Creating boxplot for categorical data, pH vs Lobulomycetales_gen_Incertae_sedis
+2024-11-24 12:37:47.797656 INFO::Creating boxplot for categorical data, pH vs Chaetothyriales_gen_Incertae_sedis
+2024-11-24 12:37:47.97152 INFO::Creating boxplot for categorical data, pH vs Piloderma
+2024-11-24 12:37:48.138898 INFO::Creating boxplot for categorical data, pH vs Rhizidium
+2024-11-24 12:37:48.425215 INFO::Creating boxplot for categorical data, pH vs Talaromyces
+2024-11-24 12:37:49.351326 INFO::Creating boxplot for categorical data, pH vs Leotiomycetes_gen_Incertae_sedis
+2024-11-24 12:37:49.513196 INFO::Creating boxplot for categorical data, pH vs Dermateaceae_gen_Incertae_sedis
+2024-11-24 12:37:49.750377 INFO::Creating boxplot for categorical data, pH vs Sugiyamaella
+2024-11-24 12:37:49.925381 INFO::Creating boxplot for categorical data, pH vs Umbelopsis
+2024-11-24 12:37:50.950857 INFO::Creating boxplot for categorical data, pH vs Leucosporidium
+2024-11-24 12:37:51.257959 INFO::Creating boxplot for categorical data, pH vs Humicolopsis
+2024-11-24 12:37:53.048519 INFO::Creating boxplot for categorical data, pH vs Leptobacillium
+2024-11-24 12:37:53.224032 INFO::Creating boxplot for categorical data, pH vs Pochonia
+2024-11-24 12:37:53.395987 INFO::Creating boxplot for categorical data, pH vs Pezoloma
+2024-11-24 12:37:53.560783 INFO::Creating boxplot for categorical data, pH vs Hyphodiscus
+2024-11-24 12:37:53.801992 INFO::Creating boxplot for categorical data, pH vs Hyaloscyphaceae_gen_Incertae_sedis
+2024-11-24 12:37:53.981757 INFO::Creating boxplot for categorical data, pH vs Serendipitaceae_gen_Incertae_sedis
+2024-11-24 12:37:54.27946 INFO::Creating boxplot for categorical data, pH vs Paraphoma
+2024-11-24 12:37:55.33648 INFO::Creating boxplot for categorical data, pH vs Cenococcum
+2024-11-24 12:37:57.131077 INFO::Creating boxplot for categorical data, pH vs Phialocephala
+2024-11-24 12:37:57.321996 INFO::Creating boxplot for categorical data, pH vs Blastocladiomycota_gen_Incertae_sedis
+2024-11-24 12:37:57.496524 INFO::Creating boxplot for categorical data, pH vs Pleotrichocladium
+2024-11-24 12:37:57.676958 INFO::Creating boxplot for categorical data, pH vs GS04_gen_Incertae_sedis
+2024-11-24 12:37:57.916363 INFO::Creating boxplot for categorical data, pH vs GS15_gen_Incertae_sedis
+2024-11-24 12:37:58.076711 INFO::Creating boxplot for categorical data, pH vs Sclerococcum
+2024-11-24 12:37:59.122024 INFO::Creating boxplot for categorical data, pH vs Truncatella
+2024-11-24 12:37:59.420761 INFO::Creating boxplot for categorical data, pH vs Leccinum
+2024-11-24 12:38:00.327944 INFO::Creating boxplot for categorical data, pH vs Pseudocoleophoma
+2024-11-24 12:38:00.49675 INFO::Creating boxplot for categorical data, pH vs Cosmospora
+2024-11-24 12:38:00.654324 INFO::Creating boxplot for categorical data, pH vs Galerina
+2024-11-24 12:38:00.810735 INFO::Creating boxplot for categorical data, pH vs Mycena
+2024-11-24 12:38:01.025651 INFO::Creating boxplot for categorical data, pH vs Cephalothecaceae_gen_Incertae_sedis
+2024-11-24 12:38:02.080041 INFO::Creating boxplot for categorical data, pH vs Triscelophorus
+2024-11-24 12:38:02.261378 INFO::Creating boxplot for categorical data, pH vs Cyathicula
+2024-11-24 12:38:02.421121 INFO::Creating boxplot for categorical data, pH vs Leptodophora
+2024-11-24 12:38:02.583876 INFO::Creating boxplot for categorical data, pH vs Verrucoccum
+2024-11-24 12:38:02.746176 INFO::Creating boxplot for categorical data, pH vs Sclerostagonospora
+2024-11-24 12:38:02.906056 INFO::Creating boxplot for categorical data, pH vs Cenangiaceae_gen_Incertae_sedis
+2024-11-24 12:38:03.074075 INFO::Creating boxplot for categorical data, pH vs Cladoriellaceae_gen_Incertae_sedis
+2024-11-24 12:38:04.058796 INFO::Creating boxplot for categorical data, pH vs Apiotrichum
+2024-11-24 12:38:05.100786 INFO::Creating boxplot for categorical data, pH vs Dothiora
+2024-11-24 12:38:06.1491 INFO::Creating boxplot for categorical data, pH vs Pseudohyphozyma
+2024-11-24 12:38:07.16493 INFO::Creating boxplot for categorical data, pH vs Nothodactylaria
+2024-11-24 12:38:07.348574 INFO::Creating boxplot for categorical data, pH vs Chytridiales_gen_Incertae_sedis
+2024-11-24 12:38:07.519009 INFO::Creating boxplot for categorical data, pH vs Hymenochaetales_gen_Incertae_sedis
+2024-11-24 12:38:07.680171 INFO::Creating boxplot for categorical data, pH vs Fusarium
+2024-11-24 12:38:07.836644 INFO::Creating boxplot for categorical data, pH vs Kodamaea
+2024-11-24 12:38:07.996828 INFO::Creating boxplot for categorical data, pH vs Neonectria
+2024-11-24 12:38:09.096612 INFO::Creating boxplot for categorical data, pH vs Penicillium
+2024-11-24 12:38:10.138647 INFO::Creating boxplot for categorical data, pH vs Sorocybe
+2024-11-24 12:38:11.179481 INFO::Creating boxplot for categorical data, pH vs Scleropezicula
+2024-11-24 12:38:12.19397 INFO::Creating boxplot for categorical data, pH vs Babjeviella
+2024-11-24 12:38:13.224942 INFO::Creating boxplot for categorical data, pH vs GS22_gen_Incertae_sedis
+2024-11-24 12:38:14.267057 INFO::Creating boxplot for categorical data, pH vs Trechispora
+2024-11-24 12:38:14.446727 INFO::Creating boxplot for categorical data, pH vs Cladophialophora
+2024-11-24 12:38:14.62359 INFO::Creating boxplot for categorical data, pH vs Ceratellopsis
+2024-11-24 12:38:14.841642 INFO::Creating boxplot for categorical data, pH vs Pulvinula
+2024-11-24 12:38:15.00573 INFO::Creating boxplot for categorical data, pH vs Tremella
+2024-11-24 12:38:16.003041 INFO::Creating boxplot for categorical data, pH vs Cystoderma
+2024-11-24 12:38:16.298515 INFO::Creating boxplot for categorical data, pH vs Fayodia
+2024-11-24 12:38:17.337359 INFO::Creating boxplot for categorical data, pH vs Vestigium
+2024-11-24 12:38:18.354847 INFO::Creating boxplot for categorical data, pH vs Flagellospora
+2024-11-24 12:38:19.247805 INFO::Creating boxplot for categorical data, pH vs Flammula
+2024-11-24 12:38:21.088272 INFO::Creating boxplot for categorical data, pH vs Gymnopilus
+2024-11-24 12:38:21.333726 INFO::Creating boxplot for categorical data, pH vs Rhizosphaera
+2024-11-24 12:38:21.498053 INFO::Creating boxplot for categorical data, pH vs Tetracladium
+2024-11-24 12:38:21.672712 INFO::Creating boxplot for categorical data, pH vs Schizothecium
+2024-11-24 12:38:21.827078 INFO::Creating boxplot for categorical data, pH vs Helvella
+2024-11-24 12:38:21.9862 INFO::Creating boxplot for categorical data, pH vs Pseudogymnoascus
+2024-11-24 12:38:22.998494 INFO::Creating boxplot for categorical data, pH vs Diademospora
+2024-11-24 12:38:24.004806 INFO::Creating boxplot for categorical data, pH vs Bionectriaceae_gen_Incertae_sedis
+2024-11-24 12:38:24.172862 INFO::Creating boxplot for categorical data, pH vs Aspicilia
+2024-11-24 12:38:24.401866 INFO::Creating boxplot for categorical data, pH vs Plectosphaerella
+2024-11-24 12:38:24.574255 INFO::Creating boxplot for categorical data, pH vs Ceratobasidium
+2024-11-24 12:38:24.739449 INFO::Creating boxplot for categorical data, pH vs Genolevuria
+2024-11-24 12:38:24.892872 INFO::Creating boxplot for categorical data, pH vs Krasilnikovozyma
+2024-11-24 12:38:25.052269 INFO::Creating boxplot for categorical data, pH vs Lachnellula
+2024-11-24 12:38:26.070545 INFO::Creating boxplot for categorical data, pH vs Luellia
+2024-11-24 12:38:26.364155 INFO::Creating boxplot for categorical data, pH vs Microsporomycetaceae_gen_Incertae_sedis
+2024-11-24 12:38:27.257249 INFO::Creating boxplot for categorical data, pH vs Phomatospora
+2024-11-24 12:38:27.425774 INFO::Creating boxplot for categorical data, pH vs Sympoventuriaceae_gen_Incertae_sedis
+2024-11-24 12:38:27.648001 INFO::Creating boxplot for categorical data, pH vs Syzygospora
+2024-11-24 12:38:27.816914 INFO::Creating boxplot for categorical data, pH vs Dermea
+2024-11-24 12:38:27.968702 INFO::Creating boxplot for categorical data, pH vs Rhizopogon
+2024-11-24 12:38:28.126711 INFO::Creating boxplot for categorical data, pH vs Tolypocladium
+2024-11-24 12:38:28.423508 INFO::Creating boxplot for categorical data, pH vs Babjevia
+2024-11-24 12:38:30.164789 INFO::Creating boxplot for categorical data, pH vs Siepmannia
+2024-11-24 12:38:30.327484 INFO::Creating boxplot for categorical data, pH vs Ophiocordycipitaceae_gen_Incertae_sedis
+2024-11-24 12:38:30.48964 INFO::Creating boxplot for categorical data, pH vs Yamadamyces
+2024-11-24 12:38:30.727571 INFO::Creating boxplot for categorical data, pH vs Dictyolus
+2024-11-24 12:38:30.911194 INFO::Creating boxplot for categorical data, pH vs Hirsutella
+2024-11-24 12:38:31.065078 INFO::Creating boxplot for categorical data, pH vs Endogonomycetes_gen_Incertae_sedis
+2024-11-24 12:38:32.116207 INFO::Creating boxplot for categorical data, pH vs Dothiorella
+2024-11-24 12:38:33.375725 INFO::Creating boxplot for categorical data, pH vs Entimomentora
+2024-11-24 12:38:35.217061 INFO::Creating boxplot for categorical data, pH vs Lecythophora
+2024-11-24 12:38:35.3814 INFO::Creating boxplot for categorical data, pH vs Chaetosphaeria
+2024-11-24 12:38:35.548871 INFO::Creating boxplot for categorical data, pH vs Oidiodendron
+2024-11-24 12:38:35.778277 INFO::Creating boxplot for categorical data, pH vs Rhodotorula
+2024-11-24 12:38:35.948012 INFO::Creating boxplot for categorical data, pH vs Mycosphaerellales_gen_Incertae_sedis
+2024-11-24 12:38:36.10255 INFO::Creating boxplot for categorical data, pH vs Oliveonia
+2024-11-24 12:38:37.112663 INFO::Creating boxplot for categorical data, pH vs Preussia
+2024-11-24 12:38:38.142516 INFO::Creating boxplot for categorical data, pH vs Herpotrichia
+2024-11-24 12:38:39.166239 INFO::Creating boxplot for categorical data, pH vs Monoblepharomycota_gen_Incertae_sedis
+2024-11-24 12:38:39.458117 INFO::Creating boxplot for categorical data, pH vs Aphanocladium
+2024-11-24 12:38:40.355572 INFO::Creating boxplot for categorical data, pH vs Micarea
+2024-11-24 12:38:40.593286 INFO::Creating boxplot for categorical data, pH vs Mortierellomycetes_gen_Incertae_sedis
+2024-11-24 12:38:40.759598 INFO::Creating boxplot for categorical data, pH vs Rhizophagus
+2024-11-24 12:38:40.918968 INFO::Creating boxplot for categorical data, pH vs Micropeltidaceae_gen_Incertae_sedis
+2024-11-24 12:38:41.081089 INFO::Creating boxplot for categorical data, pH vs Glutinomyces
+2024-11-24 12:38:42.109195 INFO::Creating boxplot for categorical data, pH vs Branch01_gen_Incertae_sedis
+2024-11-24 12:38:44.441408 INFO::Creating boxplot for categorical data, pH vs Crocicreas
+2024-11-24 12:38:44.755765 INFO::Creating boxplot for categorical data, pH vs Kurtzmaniella
+2024-11-24 12:38:44.969449 INFO::Creating boxplot for categorical data, pH vs Kurtzmanomyces
+2024-11-24 12:38:46.276791 INFO::Creating boxplot for categorical data, pH vs Pseudoplectania
+2024-11-24 12:38:46.453816 INFO::Creating boxplot for categorical data, pH vs Tylospora
+2024-11-24 12:38:46.626868 INFO::Creating boxplot for categorical data, pH vs Hamatocanthoscypha
+2024-11-24 12:38:46.799077 INFO::Creating boxplot for categorical data, pH vs Herpotrichiellaceae_gen_Incertae_sedis
+2024-11-24 12:38:46.963282 INFO::Creating boxplot for categorical data, pH vs Achroceratosphaeria
+2024-11-24 12:38:47.1212 INFO::Creating boxplot for categorical data, pH vs Synnemapestaloides
+2024-11-24 12:38:48.152469 INFO::Creating boxplot for categorical data, pH vs Cladosporium
+2024-11-24 12:38:49.166358 INFO::Creating boxplot for categorical data, pH vs Endogonales_gen_Incertae_sedis
+2024-11-24 12:38:50.280271 INFO::Creating boxplot for categorical data, pH vs Tremellomycetes_gen_Incertae_sedis
+2024-11-24 12:38:50.46904 INFO::Creating boxplot for categorical data, pH vs Phaeotremella
+2024-11-24 12:38:50.637307 INFO::Creating boxplot for categorical data, pH vs Haplographium
+2024-11-24 12:38:50.792519 INFO::Creating boxplot for categorical data, pH vs Cryptococcus
+2024-11-24 12:38:50.950193 INFO::Creating boxplot for categorical data, pH vs Thelephora
+2024-11-24 12:38:51.107331 INFO::Creating boxplot for categorical data, pH vs Septoria
+2024-11-24 12:38:51.258151 INFO::Creating boxplot for categorical data, pH vs Lentitheciaceae_gen_Incertae_sedis
+2024-11-24 12:38:52.281494 INFO::Creating boxplot for categorical data, pH vs Sporormiaceae_gen_Incertae_sedis
+2024-11-24 12:38:54.142146 INFO::Creating boxplot for categorical data, pH vs Lyomyces
+2024-11-24 12:38:54.413649 INFO::Creating boxplot for categorical data, pH vs Ochroconis
+2024-11-24 12:38:54.583577 INFO::Creating boxplot for categorical data, pH vs Chaetospermum
+2024-11-24 12:38:54.745776 INFO::Creating boxplot for categorical data, pH vs Drechmeria
+2024-11-24 12:38:54.900503 INFO::Creating boxplot for categorical data, pH vs Microdochium
+2024-11-24 12:38:55.062876 INFO::Creating boxplot for categorical data, pH vs Tympanidaceae_gen_Incertae_sedis
+2024-11-24 12:38:56.09577 INFO::Creating boxplot for categorical data, pH vs GS12_gen_Incertae_sedis
+2024-11-24 12:38:57.113505 INFO::Creating boxplot for categorical data, pH vs Pyronemataceae_gen_Incertae_sedis
+2024-11-24 12:38:57.406089 INFO::Creating boxplot for categorical data, pH vs Ballistosporomyces
+2024-11-24 12:38:58.400558 INFO::Creating boxplot for categorical data, pH vs Nadsonia
+2024-11-24 12:38:58.564938 INFO::Creating boxplot for categorical data, pH vs Coccomyces
+2024-11-24 12:38:58.730539 INFO::Creating boxplot for categorical data, pH vs Myriosclerotinia
+2024-11-24 12:38:58.884202 INFO::Creating boxplot for categorical data, pH vs Calycellina
+2024-11-24 12:38:59.041085 INFO::Creating boxplot for categorical data, pH vs Hypocreales_gen_Incertae_sedis
+2024-11-24 12:38:59.200298 INFO::Creating boxplot for categorical data, pH vs Xenopolyscytalum
+2024-11-24 12:39:00.214079 INFO::Creating boxplot for categorical data, pH vs Ceratobasidiaceae_gen_Incertae_sedis
+2024-11-24 12:39:01.229518 INFO::Creating boxplot for categorical data, pH vs Occultifur
+2024-11-24 12:39:01.481392 INFO::Creating boxplot for categorical data, pH vs Psoroglaena
+2024-11-24 12:39:01.65783 INFO::Creating boxplot for categorical data, pH vs Sakaguchia
+2024-11-24 12:39:01.823615 INFO::Creating boxplot for categorical data, pH vs Auriculariales_gen_Incertae_sedis
+2024-11-24 12:39:01.979674 INFO::Creating boxplot for categorical data, pH vs Renatobasidium
+2024-11-24 12:39:02.263187 INFO::Creating boxplot for categorical data, pH vs Ceraceomyces
+2024-11-24 12:39:03.354018 INFO::Creating boxplot for categorical data, pH vs Venturia
+2024-11-24 12:39:05.294817 INFO::Creating boxplot for categorical data, pH vs Dictyosporiaceae_gen_Incertae_sedis
+2024-11-24 12:39:05.469978 INFO::Creating boxplot for categorical data, pH vs Clavulinopsis
+2024-11-24 12:39:05.636169 INFO::Creating boxplot for categorical data, pH vs Lecanoromycetes_gen_Incertae_sedis
+2024-11-24 12:39:05.87985 INFO::Creating boxplot for categorical data, pH vs Umbelopsidomycetes_gen_Incertae_sedis
+2024-11-24 12:39:06.048487 INFO::Creating boxplot for categorical data, pH vs Basidiobolus
+2024-11-24 12:39:07.07832 INFO::Creating boxplot for categorical data, pH vs Colpoma
+2024-11-24 12:39:08.10579 INFO::Creating boxplot for categorical data, pH vs Trichosporiella
+2024-11-24 12:39:09.134784 INFO::Creating boxplot for categorical data, pH vs Zygorhynchus
+2024-11-24 12:39:10.155284 INFO::Creating boxplot for categorical data, pH vs Pseudocyclothyriella
+2024-11-24 12:39:10.447781 INFO::Creating boxplot for categorical data, pH vs Taeniolella
+2024-11-24 12:39:11.339638 INFO::Creating boxplot for categorical data, pH vs Eurotiales_gen_Incertae_sedis
+2024-11-24 12:39:11.59381 INFO::Creating boxplot for categorical data, pH vs Pholiota
+2024-11-24 12:39:11.757147 INFO::Creating boxplot for categorical data, pH vs Cadophora
+2024-11-24 12:39:11.92202 INFO::Creating boxplot for categorical data, pH vs Fuscolachnum
+2024-11-24 12:39:12.07409 INFO::Creating boxplot for categorical data, pH vs Glomeromycota_gen_Incertae_sedis
+2024-11-24 12:39:12.231433 INFO::Creating boxplot for categorical data, pH vs Nectriella
+2024-11-24 12:39:13.354962 INFO::Creating boxplot for categorical data, pH vs Clavaria
+2024-11-24 12:39:13.548482 INFO::Creating boxplot for categorical data, pH vs Helotiales_gen_Incertae_sedis
+2024-11-24 12:39:13.713142 INFO::Creating boxplot for categorical data, pH vs Plectosphaerellaceae_gen_Incertae_sedis
+2024-11-24 12:39:13.960349 INFO::Creating boxplot for categorical data, pH vs Filobasidiales_gen_Incertae_sedis
+2024-11-24 12:39:14.118939 INFO::Creating boxplot for categorical data, pH vs Diddensiella
+2024-11-24 12:39:15.174759 INFO::Creating boxplot for categorical data, pH vs GS18_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:39:16.216156 INFO::Creating boxplot for categorical data, pH vs Lipomycetaceae_gen_Incertae_sedis
+2024-11-24 12:39:17.233294 INFO::Creating boxplot for categorical data, pH vs Septoglomus
+2024-11-24 12:39:18.269523 INFO::Creating boxplot for categorical data, pH vs Vishniacozyma
+2024-11-24 12:39:20.13558 INFO::Creating boxplot for categorical data, pH vs Chloridium
+2024-11-24 12:39:20.302828 INFO::Creating boxplot for categorical data, pH vs Mortierellales_gen_Incertae_sedis
+2024-11-24 12:39:20.523089 INFO::Creating boxplot for categorical data, pH vs Sordariales_gen_Incertae_sedis
+2024-11-24 12:39:20.707897 INFO::Creating boxplot for categorical data, pH vs Davidhawksworthia
+2024-11-24 12:39:20.873417 INFO::Creating boxplot for categorical data, pH vs Paraleptosphaeria
+2024-11-24 12:39:21.029419 INFO::Creating boxplot for categorical data, pH vs Cutaneotrichosporon
+2024-11-24 12:39:21.327804 INFO::Creating boxplot for categorical data, pH vs Neosetophoma
+2024-11-24 12:39:22.357689 INFO::Creating boxplot for categorical data, pH vs Perennicordyceps
+2024-11-24 12:39:23.250873 INFO::Creating boxplot for categorical data, pH vs Sporormiella
+2024-11-24 12:39:24.267909 INFO::Creating boxplot for categorical data, pH vs Tyrannosorus
+2024-11-24 12:39:25.277505 INFO::Creating boxplot for categorical data, pH vs Pycnora
+2024-11-24 12:39:27.315613 INFO::Creating boxplot for categorical data, pH vs Myxozyma
+2024-11-24 12:39:27.497601 INFO::Creating boxplot for categorical data, pH vs Polyphilus
+2024-11-24 12:39:27.663479 INFO::Creating boxplot for categorical data, pH vs Pseudovalsaria
+2024-11-24 12:39:27.823996 INFO::Creating boxplot for categorical data, pH vs Colletotrichum
+2024-11-24 12:39:27.990686 INFO::Creating boxplot for categorical data, pH vs Infundichalara
+2024-11-24 12:39:28.146489 INFO::Creating boxplot for categorical data, pH vs Mallocybe
+2024-11-24 12:39:29.169542 INFO::Creating boxplot for categorical data, pH vs Mollisia
+2024-11-24 12:39:30.194498 INFO::Creating boxplot for categorical data, pH vs Peniophorella
+2024-11-24 12:39:31.330429 INFO::Creating boxplot for categorical data, pH vs Fungi_gen_Incertae_sedis
+2024-11-24 12:39:31.50572 INFO::Creating boxplot for categorical data, pH vs Lachnum
+2024-11-24 12:39:31.673884 INFO::Creating boxplot for categorical data, pH vs Myrothecium
+2024-11-24 12:39:31.831039 INFO::Creating boxplot for categorical data, pH vs Calycina
+2024-11-24 12:39:31.992498 INFO::Creating boxplot for categorical data, pH vs Dissoderma
+2024-11-24 12:39:32.281261 INFO::Creating boxplot for categorical data, pH vs Inocybe
+2024-11-24 12:39:34.169888 INFO::Creating boxplot for categorical data, pH vs Trichobolus
+2024-11-24 12:39:34.344775 INFO::Creating boxplot for categorical data, pH vs Cystobasidiales_gen_Incertae_sedis
+2024-11-24 12:39:34.597943 INFO::Creating boxplot for categorical data, pH vs Acarospora
+2024-11-24 12:39:34.762987 INFO::Creating boxplot for categorical data, pH vs GS35_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:39:34.930265 INFO::Creating boxplot for categorical data, pH vs Malassezia
+2024-11-24 12:39:35.091176 INFO::Creating boxplot for categorical data, pH vs Sepedonium
+2024-11-24 12:39:35.389478 INFO::Creating boxplot for categorical data, pH vs Thaxterogaster
+2024-11-24 12:39:37.312321 INFO::Creating boxplot for categorical data, pH vs Trichoderma
+2024-11-24 12:39:37.482817 INFO::Creating boxplot for categorical data, pH vs Bacidina
+2024-11-24 12:39:37.647104 INFO::Creating boxplot for categorical data, pH vs Hypogymnia
+2024-11-24 12:39:37.897779 INFO::Creating boxplot for categorical data, pH vs Basidiodendron
+2024-11-24 12:39:38.058351 INFO::Creating boxplot for categorical data, pH vs Claussenomyces
+2024-11-24 12:39:39.197491 INFO::Creating boxplot for categorical data, pH vs Gryganskiella
+2024-11-24 12:39:39.389064 INFO::Creating boxplot for categorical data, pH vs Pucciniales_gen_Incertae_sedis
+2024-11-24 12:39:39.561276 INFO::Creating boxplot for categorical data, pH vs Byssoporia
+2024-11-24 12:39:39.730031 INFO::Creating boxplot for categorical data, pH vs Laetinaevia
+2024-11-24 12:39:39.889823 INFO::Creating boxplot for categorical data, pH vs Mrakiaceae_gen_Incertae_sedis
+2024-11-24 12:39:40.04625 INFO::Creating boxplot for categorical data, pH vs GS08_gen_Incertae_sedis
+2024-11-24 12:39:41.147295 INFO::Creating boxplot for categorical data, pH vs Sympodiella
+2024-11-24 12:39:41.344988 INFO::Creating boxplot for categorical data, pH vs Dioszegia
+2024-11-24 12:39:41.516838 INFO::Creating boxplot for categorical data, pH vs Agaricales_gen_Incertae_sedis
+2024-11-24 12:39:41.673466 INFO::Creating boxplot for categorical data, pH vs Ascomycota_gen_Incertae_sedis
+2024-11-24 12:39:41.830523 INFO::Creating boxplot for categorical data, pH vs Buckleyzyma
+2024-11-24 12:39:41.992774 INFO::Creating boxplot for categorical data, pH vs Kockovaella
+2024-11-24 12:39:42.146449 INFO::Creating boxplot for categorical data, pH vs Dominikia
+2024-11-24 12:39:42.428781 INFO::Creating boxplot for categorical data, pH vs Podospora
+2024-11-24 12:39:43.334155 INFO::Creating boxplot for categorical data, pH vs GS01_phy_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:39:43.613502 INFO::Creating boxplot for categorical data, pH vs Ascocorticium
+2024-11-24 12:39:43.872387 INFO::Creating boxplot for categorical data, pH vs Pseudoanungitea
+2024-11-24 12:39:44.056693 INFO::Creating boxplot for categorical data, pH vs Comoclathris
+2024-11-24 12:39:44.221712 INFO::Creating boxplot for categorical data, pH vs GS10_gen_Incertae_sedis
+2024-11-24 12:39:45.246609 INFO::Creating boxplot for categorical data, pH vs Hebeloma
+2024-11-24 12:39:46.2716 INFO::Creating boxplot for categorical data, pH vs Hypochnicium
+2024-11-24 12:39:46.437186 INFO::Creating boxplot for categorical data, pH vs Tausonia
+2024-11-24 12:39:46.602764 INFO::Creating boxplot for categorical data, pH vs Geomyces
+2024-11-24 12:39:46.84104 INFO::Creating boxplot for categorical data, pH vs Ramariopsis
+2024-11-24 12:39:47.019468 INFO::Creating boxplot for categorical data, pH vs Metarhizium
+2024-11-24 12:39:48.059934 INFO::Creating boxplot for categorical data, pH vs Volutella
+2024-11-24 12:39:48.358708 INFO::Creating boxplot for categorical data, pH vs Pluteus
+2024-11-24 12:39:49.267807 INFO::Creating boxplot for categorical data, pH vs Ampulloclitocybe
+2024-11-24 12:39:49.433123 INFO::Creating boxplot for categorical data, pH vs Lacrymaria
+2024-11-24 12:39:49.590768 INFO::Creating boxplot for categorical data, pH vs Xenodidymella
+2024-11-24 12:39:49.756498 INFO::Creating boxplot for categorical data, pH vs Karstenia
+2024-11-24 12:39:49.98549 INFO::Creating boxplot for categorical data, pH vs Sebacinales_gen_Incertae_sedis
+2024-11-24 12:39:50.149484 INFO::Creating boxplot for categorical data, pH vs Annulatascales_gen_Incertae_sedis
+2024-11-24 12:39:51.171762 INFO::Creating boxplot for categorical data, pH vs Keithomyces
+2024-11-24 12:39:52.199188 INFO::Creating boxplot for categorical data, pH vs Cyphellophoraceae_gen_Incertae_sedis
+2024-11-24 12:39:53.322123 INFO::Creating boxplot for categorical data, pH vs Patellariales_gen_Incertae_sedis
+2024-11-24 12:39:53.493446 INFO::Creating boxplot for categorical data, pH vs Pseudeurotiaceae_gen_Incertae_sedis
+2024-11-24 12:39:53.651306 INFO::Creating boxplot for categorical data, pH vs Calophoma
+2024-11-24 12:39:53.815741 INFO::Creating boxplot for categorical data, pH vs Piptocephalidaceae_gen_Incertae_sedis
+2024-11-24 12:39:54.050419 INFO::Creating boxplot for categorical data, pH vs Rhinocladiella
+2024-11-24 12:39:55.092094 INFO::Creating boxplot for categorical data, pH vs Rhodosporidiobolus
+2024-11-24 12:39:55.267273 INFO::Creating boxplot for categorical data, pH vs Sporidiobolales_gen_Incertae_sedis
+2024-11-24 12:39:55.426464 INFO::Creating boxplot for categorical data, pH vs Hannaella
+2024-11-24 12:39:55.589956 INFO::Creating boxplot for categorical data, pH vs Yurkovia
+2024-11-24 12:39:55.753193 INFO::Creating boxplot for categorical data, pH vs Peltigera
+2024-11-24 12:39:55.911272 INFO::Creating boxplot for categorical data, pH vs Dactylella
+2024-11-24 12:39:56.067999 INFO::Creating boxplot for categorical data, pH vs Rozellomycota_gen_Incertae_sedis
+2024-11-24 12:39:57.189096 INFO::Creating boxplot for categorical data, pH vs Sanchytrium
+2024-11-24 12:39:57.361675 INFO::Creating boxplot for categorical data, pH vs Mrakia
+2024-11-24 12:39:57.543274 INFO::Creating boxplot for categorical data, pH vs Spirosphaera
+2024-11-24 12:39:57.699933 INFO::Creating boxplot for categorical data, pH vs Mucor
+2024-11-24 12:39:57.862686 INFO::Creating boxplot for categorical data, pH vs Geopora
+2024-11-24 12:39:58.021017 INFO::Creating boxplot for categorical data, pH vs Ascochyta
+2024-11-24 12:39:58.174689 INFO::Creating boxplot for categorical data, pH vs Ramophialophora
+2024-11-24 12:39:59.194497 INFO::Creating boxplot for categorical data, pH vs Verrucaria
+2024-11-24 12:40:00.336452 INFO::Creating boxplot for categorical data, pH vs Verrucariaceae_gen_Incertae_sedis
+2024-11-24 12:40:00.509099 INFO::Creating boxplot for categorical data, pH vs Geoglossales_gen_Incertae_sedis
+2024-11-24 12:40:00.675373 INFO::Creating boxplot for categorical data, pH vs Piptocephalis
+2024-11-24 12:40:00.830817 INFO::Creating boxplot for categorical data, pH vs Saccharomycetales_gen_Incertae_sedis
+2024-11-24 12:40:00.990256 INFO::Creating boxplot for categorical data, pH vs Phaeotrichum
+2024-11-24 12:40:01.14753 INFO::Creating boxplot for categorical data, pH vs Camptobasidium
+2024-11-24 12:40:01.300728 INFO::Creating boxplot for categorical data, pH vs Heterocephalacria
+2024-11-24 12:40:02.320987 INFO::Creating boxplot for categorical data, pH vs Lapidomyces
+2024-11-24 12:40:02.587614 INFO::Creating boxplot for categorical data, pH vs Pustularia
+2024-11-24 12:40:02.752242 INFO::Creating boxplot for categorical data, pH vs Tremellodendropsidales_gen_Incertae_sedis
+2024-11-24 12:40:02.920151 INFO::Creating boxplot for categorical data, pH vs Leucogyrophana
+2024-11-24 12:40:03.071745 INFO::Creating boxplot for categorical data, pH vs Helotiaceae_gen_Incertae_sedis
+2024-11-24 12:40:04.094886 INFO::Creating boxplot for categorical data, pH vs Sanchytriaceae_gen_Incertae_sedis
+2024-11-24 12:40:04.273125 INFO::Creating boxplot for categorical data, pH vs Spizellomycetales_gen_Incertae_sedis
+2024-11-24 12:40:04.437032 INFO::Creating boxplot for categorical data, pH vs Archaeorhizomycetes_gen_Incertae_sedis
+2024-11-24 12:40:04.599723 INFO::Creating boxplot for categorical data, pH vs Hormonema
+2024-11-24 12:40:11.394489 INFO::Creating boxplot for categorical data, pH vs Discosia
+2024-11-24 12:40:11.578615 INFO::Creating boxplot for categorical data, pH vs Thelebolus
+2024-11-24 12:40:11.752198 INFO::Creating boxplot for categorical data, pH vs GS27_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:40:11.911446 INFO::Creating boxplot for categorical data, pH vs Clavariaceae_gen_Incertae_sedis
+2024-11-24 12:40:12.076428 INFO::Creating boxplot for categorical data, pH vs Calyptella
+2024-11-24 12:40:12.279311 INFO::Creating boxplot for categorical data, pH vs Hygrophorus
+2024-11-24 12:40:12.640089 INFO::Creating boxplot for categorical data, pH vs Leotiaceae_gen_Incertae_sedis
+2024-11-24 12:40:13.847109 INFO::Creating boxplot for categorical data, pH vs Pectenia
+2024-11-24 12:40:14.052105 INFO::Creating boxplot for categorical data, pH vs Polyscytalum
+2024-11-24 12:40:14.277397 INFO::Creating boxplot for categorical data, pH vs Clavulina
+2024-11-24 12:40:14.445795 INFO::Creating boxplot for categorical data, pH vs Libkindia
+2024-11-24 12:40:15.815175 INFO::Creating boxplot for categorical data, pH vs Dissophora
+2024-11-24 12:40:15.977976 INFO::Creating boxplot for categorical data, pH vs Powellomycetaceae_gen_Incertae_sedis
+2024-11-24 12:40:16.139805 INFO::Creating boxplot for categorical data, pH vs Russula
+2024-11-24 12:40:16.301563 INFO::Creating boxplot for categorical data, pH vs Umbilicariales_gen_Incertae_sedis
+2024-11-24 12:40:16.460607 INFO::Creating boxplot for categorical data, pH vs Antarctomyces
+2024-11-24 12:40:17.814226 INFO::Creating boxplot for categorical data, pH vs Cystobasidiomycetes_gen_Incertae_sedis
+2024-11-24 12:40:18.02347 INFO::Creating boxplot for categorical data, pH vs Dactylellina
+2024-11-24 12:40:18.192785 INFO::Creating boxplot for categorical data, pH vs Nectriaceae_gen_Incertae_sedis
+2024-11-24 12:40:18.36319 INFO::Creating boxplot for categorical data, pH vs Trimmatostroma
+2024-11-24 12:40:19.72047 INFO::Creating boxplot for categorical data, pH vs Alatospora
+2024-11-24 12:40:19.885658 INFO::Creating boxplot for categorical data, pH vs Apiosordaria
+2024-11-24 12:40:20.047968 INFO::Creating boxplot for categorical data, pH vs Dothideales_gen_Incertae_sedis
+2024-11-24 12:40:20.207132 INFO::Creating boxplot for categorical data, pH vs Filobasidiella
+2024-11-24 12:40:20.362729 INFO::Creating boxplot for categorical data, pH vs Entocybe
+2024-11-24 12:40:21.717398 INFO::Creating boxplot for categorical data, pH vs Sphaerulina
+2024-11-24 12:40:21.921487 INFO::Creating boxplot for categorical data, pH vs Sarcopodium
+2024-11-24 12:40:22.08467 INFO::Creating boxplot for categorical data, pH vs Diaporthe
+2024-11-24 12:40:22.436952 INFO::Creating boxplot for categorical data, pH vs Didymella
+2024-11-24 12:40:23.607922 INFO::Creating boxplot for categorical data, pH vs Agaricomycetes_gen_Incertae_sedis
+2024-11-24 12:40:23.775113 INFO::Creating boxplot for categorical data, pH vs Leucosporidiales_gen_Incertae_sedis
+2024-11-24 12:40:23.936484 INFO::Creating boxplot for categorical data, pH vs Eocronartium
+2024-11-24 12:40:24.094616 INFO::Creating boxplot for categorical data, pH vs Ophiocordyceps
+2024-11-24 12:40:24.254891 INFO::Creating boxplot for categorical data, pH vs Burgoa
+2024-11-24 12:40:25.638816 INFO::Creating boxplot for categorical data, pH vs Tricholoma
+2024-11-24 12:40:25.803538 INFO::Creating boxplot for categorical data, pH vs Arthrobotrys
+2024-11-24 12:40:25.965078 INFO::Creating boxplot for categorical data, pH vs Mycoarthris
+2024-11-24 12:40:26.121895 INFO::Creating boxplot for categorical data, pH vs Piskurozyma
+2024-11-24 12:40:26.282719 INFO::Creating boxplot for categorical data, pH vs Xenasmatella
+2024-11-24 12:40:27.629628 INFO::Creating boxplot for categorical data, pH vs Candida
+2024-11-24 12:40:27.80203 INFO::Creating boxplot for categorical data, pH vs GS26_ord_Incertae_sedis_gen_Incertae_sedis
+2024-11-24 12:40:27.965454 INFO::Creating boxplot for categorical data, pH vs Sistotrema
+2024-11-24 12:40:28.124563 INFO::Creating boxplot for categorical data, pH vs Neurospora
+2024-11-24 12:40:28.312496 INFO::Creating boxplot for categorical data, pH vs Myxotrichaceae_gen_Incertae_sedis
+2024-11-24 12:40:29.655025 INFO::Creating boxplot for categorical data, pH vs Naganishia
+2024-11-24 12:40:29.825115 INFO::Creating boxplot for categorical data, pH vs Phaeococcomyces
+2024-11-24 12:40:29.985338 INFO::Creating boxplot for categorical data, pH vs Stereocaulon
+2024-11-24 12:40:30.148551 INFO::Creating boxplot for categorical data, pH vs Geminibasidium
+2024-11-24 12:40:30.309624 INFO::Creating boxplot for categorical data, pH vs Lectera
+2024-11-24 12:40:31.650146 INFO::Creating boxplot for categorical data, pH vs Trechisporales_gen_Incertae_sedis
+2024-11-24 12:40:31.815261 INFO::Creating boxplot for categorical data, pH vs Athelia
+2024-11-24 12:40:32.012982 INFO::Creating boxplot for categorical data, pH vs Coniochaetaceae_gen_Incertae_sedis
+2024-11-24 12:40:32.170186 INFO::Creating boxplot for categorical data, pH vs Kuehneromyces
+2024-11-24 12:40:32.334507 INFO::Creating boxplot for categorical data, pH vs Sistotremastrum
+2024-11-24 12:40:33.67697 INFO::Creating boxplot for categorical data, pH vs Psathyrella
+2024-11-24 12:40:33.846736 INFO::Creating boxplot for categorical data, pH vs Claroideoglomus
+2024-11-24 12:40:34.008309 INFO::Creating boxplot for categorical data, pH vs Agonimia
+2024-11-24 12:40:34.165921 INFO::Creating boxplot for categorical data, pH vs Exobasidium
+2024-11-24 12:40:34.325769 INFO::Creating boxplot for categorical data, pH vs Alternaria
+2024-11-24 12:40:35.70747 INFO::Creating boxplot for categorical data, pH vs Filobasidium
+2024-11-24 12:40:35.876668 INFO::Creating boxplot for categorical data, pH vs Stachybotryaceae_gen_Incertae_sedis
+2024-11-24 12:40:36.042708 INFO::Creating boxplot for categorical data, pH vs Tomentella
+2024-11-24 12:40:36.201095 INFO::Creating boxplot for categorical data, pH vs Collophorina
+2024-11-24 12:40:37.548956 INFO::Creating boxplot for categorical data, pH vs Mystinarius
+2024-11-24 12:40:37.718218 INFO::Creating boxplot for categorical data, pH vs Rhexocercosporidium
+2024-11-24 12:40:37.887494 INFO::Creating boxplot for categorical data, pH vs Ascocoryne
+2024-11-24 12:40:38.049039 INFO::Creating boxplot for categorical data, pH vs Coprinus
+2024-11-24 12:40:38.20825 INFO::Creating boxplot for categorical data, pH vs Phacidium
+2024-11-24 12:40:39.605614 INFO::Creating boxplot for categorical data, pH vs Paraphaeosphaeria
+2024-11-24 12:40:39.772352 INFO::Creating boxplot for categorical data, pH vs Articulospora
+2024-11-24 12:40:39.940462 INFO::Creating boxplot for categorical data, pH vs Chalara
+2024-11-24 12:40:40.099011 INFO::Creating boxplot for categorical data, pH vs Mytilinidion
+2024-11-24 12:40:40.261616 INFO::Creating boxplot for categorical data, pH vs Mycenaceae_gen_Incertae_sedis
+2024-11-24 12:40:41.618054 INFO::Creating boxplot for categorical data, pH vs Cenangium
+2024-11-24 12:40:41.780594 INFO::Creating boxplot for categorical data, pH vs Diatrype
+2024-11-24 12:40:41.939926 INFO::Creating boxplot for categorical data, pH vs Myrmecridium
+2024-11-24 12:40:42.138839 INFO::Creating boxplot for categorical data, pH vs Pseudeurotium
+2024-11-24 12:40:42.297098 INFO::Creating boxplot for categorical data, pH vs Stilbella
+2024-11-24 12:40:43.658515 INFO::Creating boxplot for categorical data, pH vs Acremonium
+2024-11-24 12:40:43.82748 INFO::Creating boxplot for categorical data, pH vs Capronia
+2024-11-24 12:40:43.99287 INFO::Creating boxplot for categorical data, pH vs Rachicladosporium
+2024-11-24 12:40:44.159067 INFO::Creating boxplot for categorical data, pH vs Clitocybe
+2024-11-24 12:40:44.322023 INFO::Creating boxplot for categorical data, pH vs Leohumicola
+2024-11-24 12:40:45.811734 INFO::Creating boxplot for categorical data, pH vs Mycobilimbia
+2024-11-24 12:40:45.981152 INFO::Creating boxplot for categorical data, pH vs Phlegmacium
+2024-11-24 12:40:46.186799 INFO::Creating boxplot for categorical data, pH vs Suillus
+2024-11-24 12:40:46.540739 INFO::Creating boxplot for categorical data, pH vs Phacidiales_gen_Incertae_sedis
+2024-11-24 12:40:47.828076 INFO::Creating boxplot for categorical data, pH vs Mycosymbioces
+2024-11-24 12:40:48.006598 INFO::Creating boxplot for categorical data, pH vs Hymenoscyphus
