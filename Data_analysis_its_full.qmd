@@ -1,0 +1,593 @@
+---
+title: "Data-analyysi Raajärvi näytteet Full-ITS"
+format: pdf
+editor: visual
+mainfont: Aptos
+monofont: PT Mono
+always_allow_html: yes
+---
+
+```{r, include=F}
+# Allows to use different font sizes inside code chunks
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+#Global options - warnings off
+knitr::opts_chunk$set(warning = F, message = F) 
+```
+
+#### R libraries
+
+```{r libraries, size="tiny"}
+library(tidyverse)
+library(knitr)
+library(ggthemes)
+library(ggsci)
+library(ggpubr)
+library(kableExtra)
+library(RColorBrewer)
+library(mia)
+library(miaViz)
+library(scater)
+library(ape)
+library(pheatmap)
+library(bluster)
+library(cluster)
+library(ALDEx2)
+library(ANCOMBC)
+library(Maaslin2)
+```
+
+#### Load data object
+
+```{r reload, size="tiny"}
+# Load data from rds
+tse <- readRDS("results/tse_itsall.rds")
+set.seed(123412)
+```
+
+#### Prevalent features on data set
+
+Features that have minimun abundance of 1 % and prevalence of over 50 %
+
+```{r prevalence, size="tiny"}
+# Agglomerate to genus
+tse <- agglomerateByRank(tse, rank="Genus", na.rm=T)
+tse <- tse[,1:23]
+# Filter abundance
+rowData(tse)$prevalence <- getPrevalence(tse, detection = 1/100,
+                                         as.relative=T)
+# Filter prevalence
+filtered_prevalence <- tse[rowData(tse)$prevalence >= 0.5,]
+# Plot
+plot <- plotRowData(filtered_prevalence, "prevalence", colour_by="Genus")
+plot$scales$scales <- list()
+plot$layers[[2]]$aes_params$size <- 2.5
+plot + theme_pubclean(base_size=8) + scale_color_lancet() +
+    labs(color="Genus", caption="Prevalence plot")
+```
+
+#### Community composition plots
+
+Top ten features calculated by median relative abundance
+
+```{r composition, size="tiny"}
+# Reload data
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+# Agglomerate to genus
+tse <- agglomerateByRank(tse, rank="Genus", na.rm=T)
+# Calculate relative abundance
+tse <- transformAssay(tse, method="relabundance")
+# Get top features
+top_features <- getTop(tse, top=10, method="median",
+                       assay.type="relabundance")
+# Get data and filter using top features
+df_genus <- data.frame(assay(tse, "relabundance"))
+df_genus <- df_genus %>% rownames_to_column(var="Genus") %>%
+    filter(Genus %in% top_features) %>%
+    bind_rows(summarise(., Genus = "Others", across(where(is.numeric),
+                                                    ~ 1 - sum(.))))
+# Sample names from colData
+coldata_df <- as.data.frame(colData(tse))
+coldata_df <- rownames_to_column(coldata_df, var="Sample")
+# Create a long table
+genus_long <- pivot_longer(df_genus, names_to="Sample",
+                           values_to="Abundance",
+                           cols = starts_with("Barcode"))
+genus_long <- merge(coldata_df, genus_long, by="Sample")
+#barplot theme settings
+bar_theme <- list(theme_pubclean(base_size=7),scale_fill_igv(), xlab("Sample"),
+                  theme(axis.text.x = element_text(angle = 90,
+                                                   vjust = 0.5,
+                                                   hjust = 1)))
+```
+
+\newpage
+
+Barplot faceted by vegetation
+
+```{r comp_barplot1, size="tiny", fig.dim=c(6.5,4)}
+barplot1 <- ggplot(genus_long, aes(x=Labnro, y=Abundance, fill=Genus)) +
+    geom_bar(stat="identity", width=0.8) +
+    facet_wrap(~ Kasvillisuus) + bar_theme
+barplot1
+```
+
+\newpage
+
+Barplot faceted by soil
+
+```{r comp_barplot2, size="tiny", fig.dim=c(6.5,4)}
+barplot2 <- ggplot(genus_long, aes(x=Labnro, y=Abundance, fill=Genus)) +
+    geom_bar(stat="identity", width=0.8) + facet_grid(~ Maanäyte) + bar_theme
+barplot2
+```
+
+\newpage
+
+Barplot faceted by pH
+
+```{r comp_barplot3, size="tiny", fig.dim=c(6.5,4)}
+barplot3 <- ggplot(genus_long, aes(x=Labnro, y=Abundance, fill=Genus)) +
+    geom_bar(stat="identity", width=0.8) + facet_grid(~ pH) + bar_theme
+barplot3
+```
+
+\newpage
+
+Clustered heatmap with soil pH groups
+
+```{r heatmap, size="tiny", fig.dim=c(6.5,8)}
+# Reload object and count relabundance
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+tse <- transformAssay(tse, method="relabundance")
+# Get assay data
+assay_data <- assay(tse, "relabundance")
+# Get taxa labels and merge with feature id
+taxa <- data.frame(id = rownames(tse), label = getTaxonomyLabels(tse))
+taxa$cleaned <- sub(".*:", "", taxa$label)
+taxa$merged <- paste(taxa$id, taxa$cleaned, sep = ":")
+# Replace rownames with new label
+rownames(assay_data) <- taxa$merged
+# Calculate rowsums
+abundance <- rowSums(assay_data)
+abundance <- order(abundance, decreasing = TRUE)[1:25]
+# Filter assay data with top25 abundance
+top25 <- assay_data[abundance, ]
+# Extract sample names and material types from colData
+sample_names <- colData(tse)$Labnro
+material_types <- colData(tse)$pH
+# Assign the sample names to the top25 matrix
+colnames(top25) <- sample_names
+# Create a dataframe for annotations
+annotation_data <- data.frame(pH = material_types)
+rownames(annotation_data) <- sample_names
+# Set color for annotations
+annotation_colors <- list(pH = c("neutral" = "navy", "acidic" = "red"))
+# Plot the heatmap with annotations
+pheatmap(
+  top25,
+  cluster_rows = TRUE,
+  cluster_cols = TRUE,
+  clustering_distance_cols = "correlation",
+  main = "Heatmap presentation",
+  scale = "row",
+  color = brewer.pal(11, "RdBu"),
+  fontsize = 8,
+  fontsize_row = 6,
+  fontsize_col = 6,
+  annotation_col = annotation_data,
+  annotation_colors = annotation_colors)
+```
+
+\newpage
+
+Taxonomy tree plot objects for soil pH groups
+
+```{r taxonomytrees, size="tiny"}
+# Reload data
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+plots <- list()
+materials <- unique(tse$pH)
+# For loop for different groups
+for (i in seq_along(materials)) {
+material <- materials[i]
+# Subset materials
+tse_sub <- tse[, tse$pH == material]
+# Agglomerate omitting empty species column
+tse_sub <- agglomerateByRanks(tse_sub, ranks = taxonomyRanks(tse_sub)[1:6])
+# Calculate prevalence values
+altExps(tse_sub) <- lapply(
+   altExps(tse_sub), function(y){
+   rowData(y)$prevalence <- getPrevalence(y, detection = 1/100,
+                                          sort = F, as.relative = T,
+                                          assay.type = "counts")
+return(y)})
+# Define top5 phyla
+top_phyla <- getTop(altExp(tse_sub,"Phylum"),
+                    method="mean",
+                    top=5,
+                    assay.type="counts")
+# Unsplit agglomeration
+taxas <- unsplitByRanks(tse_sub, ranks = taxonomyRanks(tse_sub)[1:6])
+# Add hierarchy
+taxas <- addHierarchyTree(taxas)
+# Plot rowtree
+p <- plotRowTree(
+taxas[rowData(taxas)$Phylum %in% top_phyla,],
+edge.colour.by = "Phylum",
+tip.colour.by = "prevalence",
+node.colour.by = "prevalence")
+plots[[i]] <- p + ggtitle(paste("Soil = ",material)) + scale_color_lancet()
+}
+```
+
+Plot the figure
+
+```{r taxonomic_tree_plots, size="tiny", fig.dim=c(6.5,9)}
+plots[[1]]/plots[[2]]
+```
+
+#### Alpha diversity
+
+Calculation of alpha diversity indexes
+
+```{r alphad, size="tiny"}
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+# Calculate alpha and create df
+tse <- addAlpha(tse, assay.type="counts",
+                index=c("shannon_diversity", "gini_simpson_diversity",
+                        "pielou_evenness", "observed_richness"))
+alpha_table <- data.frame(Sample=colData(tse)$Labnro,
+                          Shannon = colData(tse)$shannon_diversity,
+                          Gini_Simpson = colData(tse)$gini_simpson_diversity,
+                          Pielou = colData(tse)$pielou_evenness,
+                          Observed_features = colData(tse)$observed_richness)
+common_theme <- list(theme_pubclean(base_size=8), scale_fill_lancet(),
+                     theme(legend.position="none"))
+```
+
+Alpha diversity index table
+
+```{r alpha_table, size="tiny"}
+kable(alpha_table, digits = 2, caption = "Diversity indexes") %>%
+kable_styling(latex_options = c("HOLD_position", "striped"),
+font_size = 10) %>% row_spec(0, background = "teal", color = "white")
+```
+
+Group comparison objects
+
+```{r alpha_boxplot, size="tiny"}
+# Data frame for shannon boxplots
+alphadf <- data.frame(colData(tse)) %>%
+    dplyr::select(Labnro, Alue, Kasvillisuus, Maanäyte, pH,
+                  Shannon=shannon_diversity)
+# Vegetation
+plot_kasvillisuus <- ggplot(alphadf, aes(x=Kasvillisuus, y=Shannon,
+                                     fill=Kasvillisuus)) + geom_boxplot() +
+    common_theme + labs(caption="Kasvillisuus")
+# Area
+plot_alue <- ggplot(alphadf, aes(x=Alue, y=Shannon,
+                                 fill=Alue)) + geom_boxplot() +
+    common_theme + labs(caption="Alue")
+# Soil_type
+plot_Maanäyte <- ggplot(alphadf, aes(x=Maanäyte, y=Shannon,
+                                      fill=Maanäyte)) +
+    geom_boxplot() + common_theme + labs(caption="Maanäyte")
+# pH
+plot_pH <- ggplot(alphadf, aes(x=pH, y=Shannon,
+                                      fill=pH)) +
+    geom_boxplot() + common_theme + labs(caption="Soil pH")
+```
+
+Plots
+
+```{r, size="tiny", fig.dim=c(6,6)}
+plot_alue + plot_kasvillisuus + plot_Maanäyte + plot_pH
+```
+
+Kruskal-Wallis tests for variables
+
+```{r kruskal_wallis, size="tiny"}
+kruskal.test(Shannon ~ Kasvillisuus, data=alphadf)
+kruskal.test(Shannon ~ Alue, data=alphadf)
+kruskal.test(Shannon ~ Maanäyte, data=alphadf)
+kruskal.test(Shannon ~ pH, data=alphadf)
+```
+
+\newpage
+
+#### Betadiversity
+
+Bray-Curtis distances ja PCoA ordination plots
+
+```{r, size="tiny"}
+# Reload object
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+tse <- transformAssay(
+    tse, assay.type = "counts", method = "relabundance")
+# Run PCoA on relabundance assay with Bray-Curtis distances
+tse <- runMDS(tse, FUN = getDissimilarity,
+              method = "bray", assay.type = "relabundance",
+              name = "MDS_bray", sample=130000)
+# Create ggplot object
+p1 <- plotReducedDim(tse, "MDS_bray", colour_by = "Kasvillisuus")
+# Calculate explained variance
+e <- attr(reducedDim(tse, "MDS_bray"), "eig")
+rel_eig <- e / sum(e[e > 0])
+p1 <- p1 + labs(
+    x = paste("PCoA 1 (", round(100 * rel_eig[[1]], 1), "%", ")", sep = ""),
+    y = paste("PCoA 2 (", round(100 * rel_eig[[2]], 1), "%", ")", sep = "")
+    ) + theme_pubclean(base_size=8) 
+p1$scales$scales <- list()
+p1$layers[[1]]$aes_params$size <- 2.5
+# pH plot
+p2 <- plotReducedDim(tse, "MDS_bray", colour_by = "pH")
+# Calculate explained variance
+e <- attr(reducedDim(tse, "MDS_bray"), "eig")
+rel_eig <- e / sum(e[e > 0])
+p2 <- p2 + labs(
+    x = paste("PCoA 1 (", round(100 * rel_eig[[1]], 1), "%", ")", sep = ""),
+    y = paste("PCoA 2 (", round(100 * rel_eig[[2]], 1), "%", ")", sep = "")
+    ) + theme_pubclean(base_size=8) 
+p2$scales$scales <- list()
+p2$layers[[1]]$aes_params$size <- 2.5
+```
+
+Plot vegetation and pH groups
+
+```{r bray_plots, size="tiny"}
+p1 + scale_color_lancet() + p2 + scale_color_lancet()
+```
+
+#### Dirichlet-Multinomial Mixture model
+
+Cluster calculation
+
+```{r dmm_calc, size="tiny"}
+# Load the tse object
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+tse <- transformAssay(tse, method="hellinger")
+# Prevalence is min. 2 samples and rank agglomerated to genus
+tse <- agglomerateByPrevalence(tse, rank="Genus", prevalence=0.05, detection=1/1000)
+# Add DMM clusters
+altExp(tse, "prevalent") <- addCluster(
+    tse,
+    assay.type = "counts",
+    name = "DMM",
+    DmmParam(k = 1:6, type = "laplace"),
+    MARGIN = "samples",
+    full = TRUE,
+    clust.col = "dmmclust")
+```
+
+Laplace approximation tells us optimal number of clusters in data set (2)
+
+```{r DMM_clusters, size="tiny"}
+# Plot Laplace approximation results
+p <- plotDMNFit(altExp(tse, "prevalent"), type = "laplace", name = "DMM")
+p + theme_pubclean(base_size = 8)
+```
+
+\newpage
+
+```{r clusters_pca_plot, size="tiny"}
+# Extract transformed data for PCA
+data <- assay(altExp(tse, "prevalent"), "hellinger")
+data <- as.matrix(data)
+# Run PCA
+pca_results <- prcomp(t(data))  # Transpose to have samples as rows
+# Extract DMM clusters from metadata
+clusters <- colData(altExp(tse, "prevalent"))$dmmclust
+# Add PCA results to a data frame and include DMM clusters
+pca_df <- as.data.frame(pca_results$x)
+pca_df$Cluster <- as.factor(clusters)
+# Plot PCA
+ggplot(pca_df, aes(x = PC1, y = PC2, color = Cluster)) +
+  geom_point(size = 2) +
+  theme_pubclean(base_size = 8) + 
+  scale_color_lancet() +
+  labs(title = "PCA of Samples with DMM Clusters", color = "Cluster")
+```
+
+\newpage
+
+Eigen values for PCA plot
+
+```{r eigen_values, size="tiny"}
+# Calculate eigenvalues and variance explained
+eigenvalues <- pca_results$sdev^2
+variance_explained <- eigenvalues / sum(eigenvalues) * 100
+cumulative_variance <- data.frame(
+  Principal_Component = paste0("PC", 1:length(variance_explained)),
+  Variance_Explained = variance_explained,
+  Cumulative_Variance = cumsum(variance_explained))
+# Display eigenvalues in a table
+kable(cumulative_variance[1:2,], digits = 2, 
+      col.names = c("Principal Component", "Variance Explained (%)",
+                    "Cumulative Variance (%)")) %>%
+kable_styling(latex_options = c("HOLD_position"),
+font_size = 11) %>% row_spec(0, background = "teal", color = "white")
+```
+
+Silhoutte plot of clustered samples. Higher the values, tighter the cluster.
+
+```{r silhoutte_plot, size="tiny"}
+# Convert clusters to numeric
+numeric_clusters <- as.numeric(as.character(clusters))
+# Compute silhouette scores
+sil <- silhouette(numeric_clusters, dist(t(data)))
+# Plot silhouette
+plot(sil, main = "Silhouette Plot of DMM Clusters")
+```
+
+\newpage
+
+Cluster loadings - ten most important features driving samples into clusters 1 & 2
+
+```{r}
+# Extract best DMM model
+best_model <- metadata(altExp(tse, "prevalent"))$DMM$dmm[2]
+# Extract cluster loadings
+drivers <- as.data.frame(best_model[[1]]@fit$Estimate)
+# Plot cluster loadings
+plotLoadings(as.matrix(drivers), ncomponents = 2) +
+  theme_pubclean(base_size = 7) +
+  scale_fill_manual(values = c("royalblue", "coral"))
+```
+
+\newpage
+
+#### DAA analysis - pH variable
+
+Prepare data
+
+```{r daa_preparation, size="tiny"}
+# Load tse
+tse <- readRDS("results/tse_itsall.rds")
+tse <- tse[,1:23]
+# Agglomerate by genus and subset by prevalence
+tse <- subsetByPrevalent(tse, rank = "Genus", prevalence = 10/100, detection=5/1000)
+# Transform assay to relative abundances
+tse <- transformAssay(tse, assay.type = "counts", method = "relabundance")
+# Factor pH category
+tse$pH <- factor(tse$pH, levels = c("neutral", "acidic"))
+```
+
+ALDEx2 analysis
+
+```{r aldex2, size="tiny", message=FALSE}
+conds <- ifelse(tse$pH == "neutral", 1, 2)
+# Generate Monte Carlo samples of the Dirichlet distribution for each sample.
+x <- aldex.clr(assay(tse), conds, mc.samples = 500)
+x_tt <- aldex.ttest(x, paired.test = FALSE, verbose = FALSE)
+x_effect <- aldex.effect(x, CI = TRUE, verbose = FALSE)
+# combine outputs
+aldex_out <- data.frame(x_tt, x_effect)
+```
+
+Volcano plot
+
+```{r aldex2_plot, size="tiny"}
+aldex.plot(aldex_out, type="volcano", test="welch", xlab="Difference",
+    ylab="-1(log10(q))", Main ='Volcano plot') 
+```
+
+\newpage
+
+Genera with significantly different abundance
+
+```{r aldex_results, size="tiny"}
+aldex_summary <- aldex_out %>%
+  rownames_to_column(var = "Genus") %>%
+  filter(wi.eBH <= 0.05)  %>%
+  dplyr::select(Genus, effect, overlap, we.eBH, wi.eBH) %>%
+  arrange(desc(effect))
+# Summary table
+kable(aldex_summary, digits=2, longtable=T, booktabs=T) %>%
+    kable_styling(latex_options = c("HOLD_position", "striped", "repeat_header"),
+                  font_size = 7) %>% row_spec(0, color = "white",
+                                               background = "teal")
+```
+
+Effect positive, genus more abundant in acidic pH (cond2, effect group). Effect negative, genus more abundant in neutral pH (cond1, control). Scale log2.
+
+Ancombc2 analysis
+
+```{r ancombc, size="tiny", warning=FALSE}
+# Run ANCOM-BC at the genus level and only including the prevalent genera
+ancombc2_out <- ancombc2(
+    data = tse,
+    assay.type = "relabundance",
+    fix_formula = "pH",
+    p_adj_method = "fdr",
+    prv_cut = 0,
+    group = "pH",
+    struc_zero = TRUE,
+    neg_lb = TRUE,
+    global = FALSE,
+    verbose = FALSE
+    )
+```
+
+\newpage
+
+Genera with significantly different abundance
+
+```{r ancom_results, size="tiny"}
+ancom_summary <- ancombc2_out$res %>%
+  dplyr::select(Genus = taxon, lfc = lfc_pHacidic, se = se_pHacidic, q = q_pHacidic, diff = diff_pHacidic) %>%
+  filter(diff == TRUE) %>% arrange(desc(lfc))
+# Summary table
+kable(ancom_summary, digits=2, longtable=T, booktabs=T) %>%
+    kable_styling(latex_options = c("HOLD_position", "striped", "repeat_header"),
+                  font_size = 7) %>% row_spec(0, color = "white",
+                                               background = "teal")
+```
+
+In ancombc analysis control is neutral, effect is acidic. Log fold change is log2 scale.
+
+Maaslin2 analysis
+
+```{r maaslin2, size="tiny", eval=F}
+# specifying a ref is especially important if you have more than 2 levels
+maaslin2_out <- Maaslin2(
+    input_data = as.data.frame(t(assay(tse))),
+    input_metadata = as.data.frame(colData(tse)),
+    output = "ITSF",
+    transform = "AST",
+    fixed_effects = "pH",
+    reference = "pH,neutral",
+    normalization = "TSS",
+    standardize = FALSE,
+    min_prevalence = 0)
+saveRDS(maaslin2_out, "results/itsfull_maaslin2.rds")
+```
+
+Genera with significantly different abundance
+
+```{r maaslin_results, size="tiny"}
+maaslin2_out <- readRDS("results/itsfull_maaslin2.rds")
+maaslin_summary <- maaslin2_out$results %>% dplyr::select(Genus = feature, coef, stderr, qval, N.not.zero) %>%
+  filter(qval < 0.05) %>% arrange(desc(coef))
+# Summary table
+kable(maaslin_summary, digits=2, longtable=T) %>%
+    kable_styling(latex_options = c("HOLD_position", "striped", "repeat_header"),
+                  font_size = 7) %>% row_spec(0, color = "white",
+                                               background = "teal")
+```
+
+In maaslin2 analysis, control is neutral, effect is acidic. Changes are calculated with formula log(q)\*sign(coeff)
+
+DAA analysis summary table
+
+```{r summary_df, size="tiny"}
+summary <- aldex_summary %>% dplyr::select(Genus)
+summary$Aldex2 <- TRUE  
+summary <- dplyr::full_join(summary, ancom_summary, by="Genus")
+summary <- summary %>% dplyr::select(Genus, Aldex2, Ancombc = diff)
+summary <- dplyr::full_join(summary, maaslin_summary, by="Genus")
+summary <- summary %>% mutate(Maaslin2=ifelse(is.na(summary$coef) , FALSE, TRUE))
+summary <- summary %>% dplyr::select(Genus, Aldex2, Ancombc, Maaslin2)
+summary[is.na(summary)] <- FALSE
+```
+
+\newpage
+
+Comparison of DAA analysis results
+
+```{r daa_table, size="tiny"}
+# Summary table
+kable(summary, digits=2, longtable=T, booktabs=T) %>%
+    kable_styling(latex_options = c("HOLD_position", "striped", "repeat_header"),
+                  font_size = 7) %>% row_spec(0, color = "white",
+                                               background = "teal")
+```
