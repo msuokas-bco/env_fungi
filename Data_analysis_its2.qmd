@@ -456,8 +456,6 @@ tse <- readRDS("results/tse_its2.rds")
 tse <- tse[,1:23]
 # Agglomerate by genus and subset by prevalence
 tse <- subsetByPrevalent(tse, rank = "Genus", prevalence = 10/100, detection=5/1000)
-# Transform assay to relative abundances
-tse <- transformAssay(tse, assay.type = "counts", method = "relabundance")
 # Factor pH category
 tse$pH <- factor(tse$pH, levels = c("neutral", "acidic"))
 ```
@@ -506,7 +504,7 @@ Ancombc2 analysis
 # Run ANCOM-BC at the genus level and only including the prevalent genera
 ancombc2_out <- ancombc2(
     data = tse,
-    assay.type = "relabundance",
+    assay.type = "counts",
     fix_formula = "pH",
     p_adj_method = "fdr",
     prv_cut = 0,
