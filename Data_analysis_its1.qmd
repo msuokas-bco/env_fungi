@@ -1,6 +1,6 @@
 ---
 title: "Data-analyysi Raajärvi näytteet ITS1"
-format: pdf
+format: docx
 editor: visual
 mainfont: Aptos
 monofont: PT Mono
