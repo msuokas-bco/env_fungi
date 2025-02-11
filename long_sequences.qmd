@@ -8,18 +8,18 @@ mainfont: Aptos
 
 Libraries & load TSE
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=F, message=F}
 library(mia)
 library(tidyverse)
 library(kableExtra)
-tse <- readRDS("results/tse_itsall.rds")
+tse <- readRDS("results/TSE.rds")
 ```
 
 ```{r}
 rowData(tse)$seq_length <- nchar(as.character(referenceSeq(tse)))
 ```
 
-Filtering seq over 800 bp
+Filtering sequences over 800 bp
 
 ```{r}
 tse <- tse[rowData(tse)$seq_length >=800,]
