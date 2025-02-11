@@ -2,6 +2,7 @@
 title: "Processing fungal nanopore sequences"
 mainfont: Aptos
 format: pdf
+always_allow_html: true
 editor: visual
 ---
 
@@ -11,191 +12,63 @@ editor: visual
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
-  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
-})
+  ifelse(options$size != "normalsize",
+         paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)})
 
-# Global options
+# Some global options
 knitr::opts_chunk$set(warning = F, message = F)
 knitr::opts_chunk$set(fig.align = 'center')
-knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(warning = F)
 silent_library <- function(pkg) {
-  suppressPackageStartupMessages(library(pkg, character.only = TRUE))
+  suppressPackageStartupMessages(library(pkg, character.only = T))
 }
 ```
 
 #### Preprocessing
 
-The Nanopore basecaller lacks support for demultiplexing dual indexes located on both the 5’ and 3’ ends of reads. Additionally, ligated libraries may contain reads in either orientation. To address these, we use `Cutadapt` for demultiplexing and `SeqKit` for reverse-complementing reads in the reverse orientation. The sequences are then merged, and PCR primers are trimmed. A Python wrapper script has been developed to automate these steps. End result is demultiplexed fastq.gz read files.
+The Nanopore basecaller lacks support for demultiplexing dual indexes located on both the 5’ and 3’ ends of reads. Additionally, ligated libraries may contain reads in either orientation. To address these, we use `Cutadapt` for demultiplexing and `SeqKit` for reverse-complementing reads in the reverse orientation. The sequences are then merged, and PCR primers are trimmed. A Python wrapper script, BCO_demux_tool has been created to automate these steps. End result is demultiplexed fastq.gz read files.
 
-#### ITSxpress (standalone or Qiime plugin)
+#### ITSxpress (standalone)
 
-`Itsxpress` is used to trim ITS regions. Thus, after the step, we have three datasets: one containing ITS1 sequences, one with ITS2 sequences, and one with both regions. The code will also remove reads that are shorter than 20 nt as zero length sequences will cause error with `vsearch`.
+`Itsxpress` is used to trim ITS region. The code extracts full ITS region. Cutadapt is used to remove short sequences.
 
 ```{bash, eval = F}
 
 #!/bin/bash
-source /etc/profile.d/conda.sh
-conda activate base
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate base
 
 # Define the input and output directories
-input_dir="/data/projects/fungi"  
-output_dir="/data/projects/fungi"
+input_dir="/homedir04/msuokas/r_projects/env_fungi/raw"  
+output_dir="/homedir04/msuokas/r_projects/env_fungi/xpress"
 
 # Create output subdirectories if they don't exist
-mkdir -p "$output_dir/ITS1" "$output_dir/ITS2" "$output_dir/all"
+mkdir -p "$output_dir"
 
 # Loop over each file in the input directory
 for file in "$input_dir"/*
 do
     # Get the base name of the file (without path and extension)
     base_name=$(basename "$file" .fastq.gz)
-
-    # Process with ITS1 option
-    itsxpress --single_end --fastq "$file" --threads 20 \
-    --region ITS1 --outfile "$output_dir/ITS1/${base_name}_ITS1.fastq.gz"
-    
-    cutadapt -m 20 -o "$output_dir/ITS1/${base_name}_ITS1_trimmed.fastq.gz" \
-    "$output_dir/ITS1/${base_name}_ITS1.fastq.gz"
-
-    # Process with ITS2 option
-    itsxpress --single_end --fastq "$file" --threads 20 \
-    --region ITS2 --outfile "$output_dir/ITS2/${base_name}_ITS2.fastq.gz"
-    
-    cutadapt -m 20 -o "$output_dir/ITS2/${base_name}_ITS2_trimmed.fastq.gz" \
-    "$output_dir/ITS2/${base_name}_ITS2.fastq.gz"
-
     # Process with all regions option
     itsxpress --single_end --fastq "$file" --threads 20 \
-    --region ALL --outfile "$output_dir/all/${base_name}_all.fastq.gz"
+    --region ALL --outfile "$output_dir/${base_name}_full.fastq.gz"
     
-    cutadapt -m 20 -o "$output_dir/all/${base_name}_all_trimmed.fastq.gz" \
+    cutadapt -m 50 -o "$output_dir/${base_name}_full_trimmed.fastq.gz" \
     "$output_dir/all/${base_name}_all.fastq.gz"
 done
 
 echo "Processing complete! Check the output directory for results."
 ```
 
-#### Process extracted ITS1 reads
-
-Import to Qiime via manifest file as usual. It's also possible to request AI to prepare file for you by providing necessary information.
+Itsxpress sometimes leaves fastq sequence headers without DNA sequence. Such files will cause error when using vsearch to dereplicate sequences. We use support script to fix problematic files.
 
 ```{bash, eval=F}
+bash fix_fastq.sh /homedir04/msuokas/r_projects/env_fungi/xpress/
 
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-# Run import command
-qiime tools import \
-  --type 'SampleData[SequencesWithQuality]' \
-  --input-path ITS1/manifest.csv \
-  --output-path q2/demux_its1.qza \
-  --input-format SingleEndFastqManifestPhred33
 ```
 
-\newpage
-
-Dereplicate sequences with `vsearch` plugin
-
-```{bash, eval=F}
-
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-# Dereplicate
-qiime vsearch dereplicate-sequences \
---i-sequences q2/demux_its1.qza \
---o-dereplicated-table q2/its1/derep_table.qza \
---o-dereplicated-sequences q2/its1/derep_seq.qza \
-```
-
-De-novo otu picking at 97 % identity level using `vsearch` plugin
-
-```{bash, eval=F}
-
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-# Pick otus
-qiime vsearch cluster-features-de-novo \
---i-sequences q2/its1/derep_seq.qza \
---i-table q2/its1/derep_table.qza \
---p-perc-identity 0.97 --p-strand plus \
---p-threads 20 --output-dir q2/its1/features
-```
-
-Filter rare features
-
-```{bash, eval=F}
-
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Filter rare features
-qiime feature-table filter-features \
---i-table q2/its1/features/clustered_table.qza \
---p-min-frequency 10 \
---o-filtered-table q2/its1/features/f1_table.qza
-
-qiime feature-table filter-seqs \
---i-data q2/its1/features/clustered_sequences.qza \
---i-table q2/its1/features/f1_table.qza \
---o-filtered-data q2/its1/features/f1_sequences.qza
-```
-
-Identify chimeric sequences
-
-```{bash, eval=F}
-
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Detect chimeras
-qiime vsearch uchime-denovo \
---i-sequences q2/its1/features/f1_sequences.qza \
---i-table q2/its1/features/f1_table.qza \
---o-chimeras q2/its1/features/chimeras.qza \
---o-stats q2/its1/features/stats.qza \
---o-nonchimeras q2/its1/features/nonchimeras.qza
-```
-
-Filter chimeras from feature table
-
-```{bash, eval=F}
-
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Keep nonchimeric features in the table
-qiime feature-table filter-features \
---i-table q2/its1/features/f1_table.qza \
---m-metadata-file q2/its1/features/nonchimeras.qza \
---o-filtered-table q2/its1/features/otu_table.qza
-```
-
-Filter sequence file
-
-```{bash, eval=F}
-
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Keep nonchimeric sequences
-qiime feature-table filter-seqs \
---i-data q2/its1/features/f1_sequences.qza \
---i-table q2/its1/features/otu_table.qza \
---o-filtered-data q2/its1/features/otu_sequences.qza
-```
-
-\newpage
-
-Load R libraries
+#### Load R libraries
 
 ```{r, size = "tiny"}
 library(tidyverse)
@@ -203,457 +76,107 @@ library(kableExtra)
 library(ggthemes)
 library(dada2)
 library(mia)
+library(ggsci)
 ```
 
-Import feature table and metadata to TreeSummarizedExperiment
+#### Process extracted ITS region sequences
 
-```{r, size="tiny"}
-# Import feature table and sort sample names alphabetically
-tse <- importQIIME2(featureTableFile = "q2/its1/features/otu_table.qza")
-tse <- tse[, sort(colnames(tse))]
+Import reads to qiime2
 
-# Import metadata file and add data to colData
-metadata <- data.frame(read_tsv("meta.tsv",
-show_col_types = F))
-metadata <- column_to_rownames(metadata, "sampleid")
-colData(tse) <- DataFrame(metadata)
-
-# Check dimensions
-tse
+```{bash, eval=F}
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
+# Run command
+qiime tools import --type 'SampleData[SequencesWithQuality]' \
+--input-path xpress/manifest.csv --output-path qiime2/full_its.qza \
+--input-format SingleEndFastqManifestPhred33
 ```
 
-Import sequences and rearrane them to correspond count table
-
-```{r, size="tiny"}
-# Import squence file
-ref_sequences <- importQZA("q2/its1/features/otu_sequences.qza")
-ref_ids <- names(ref_sequences)
-tse_ids <- rownames(tse)
-# Check if all rownames are present in the reference IDs
-if (!all(tse_ids %in% ref_ids)) {
-stop("Not all rownames from tse are present in the reference sequences.")
-}
-# Reorder `ref_sequences` to match the order of `tse` rownames
-ref_sequences_ordered <- ref_sequences[match(tse_ids, ref_ids)]
-all(names(ref_sequences_ordered) == rownames(tse))
-# Included ordered sequences to data object
-referenceSeq(tse) <- ref_sequences_ordered
-```
-
-Classify taxonomy. This step is computionally heavy.
-
-```{r, size="tiny", eval=F}
-# Unite reference file
-unite <- "~/feature_classifiers/sh_general_release_dynamic_04.04.2024.fasta"
-# Assign taxonomy using dada2 assignTaxonomy function
-taxa <- assignTaxonomy(referenceSeq(tse),unite, minBoot=50, multithread=2)
-# Save result to rds file
-saveRDS(taxa, "q2/its1_taxa.rds")
-```
-
-Process and included taxonomic results
-
-```{r, size="tiny"}
-# Read results
-taxa <- data.frame(readRDS("q2/its1_taxa.rds"))
-# Remove taxa prefixes from each column
-taxa <- as.data.frame(lapply(taxa, function(x) sub("^[a-z]__","", x)))
-#Add taxonomy to rowData
-rownames(taxa) <- NULL
-rowData(tse) <- DataFrame(taxa)
-# Rename rows
-rownames(tse) <- paste0("OTU_", seq_len(nrow(tse)))
-```
-
-Prune non-fungal taxa from data
-
-```{r, size="tiny"}
-# Non-bacterial taxa
-tse <- tse[rowData(tse)$Kingdom %in% "Fungi",]
-# Final dimensions
-tse
-```
-
-#### Write final object data to files
-
-**RDS**
-
-```{r, size="tiny"}
-saveRDS(tse, "results/tse_its1_original.rds")
-```
-
-**Abundance table**
-
-```{r, size="tiny"}
-#FeatureID will be rowname
-abd <- data.frame(FeatureID = rownames(tse),assays(tse)$counts)
-#Write
-write_tsv(abd, "results/its1_feature_table.tsv")
-```
-
-**Taxonomy table**
-
-```{r, size="tiny"}
-#FeatureID will be rowname
-taxt <- data.frame(FeatureID = rownames(tse), rowData(tse))
-#Write
-write_tsv(taxt, "results/its1_taxonomy.tsv")
-```
-
-**Feature sequences**
-
-```{r, size="tiny"}
-# Write fasta file
-writeXStringSet(referenceSeq(tse), "results/its1_repseq.fasta",
-append = F, compress = F,
-format = "fasta")
-```
-
-\newpage
-
-**Metadata file**
-
-```{r, size="tiny"}
-metadf <- data.frame(colData(tse)) %>% rownames_to_column(var="Sampleid")
-# Write
-write_tsv(metadf, "results/its1_metadata.tsv")
-```
-
-#### Process extracted ITS2 reads
-
-Import to Qiime via manifest file as usual. It's also possible to request AI to prepare file for you by providng necessary information.
+Dereplicate sequences
 
 ```{bash, eval=F}
 
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-# Import command
-qiime tools import \
-  --type 'SampleData[SequencesWithQuality]' \
-  --input-path ITS2/manifest.csv \
-  --output-path q2/demux_its2.qza \
-  --input-format SingleEndFastqManifestPhred33
-```
-
-Dereplicate imported sequences with `vsearch` plugin
-
-```{bash, eval=F}
-#!/bin/bash
-
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-#Dereplicate
-qiime vsearch dereplicate-sequences \
---i-sequences q2/demux_its2.qza \
---o-dereplicated-table q2/its2/derep_table.qza \
---o-dereplicated-sequences q2/its2/derep_seq.qza \
-```
-
-De-novo otu picking at 97 % identity level using `vsearch` plugin
-
-```{bash, eval=F}
-
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-# Pick otus
-qiime vsearch cluster-features-de-novo \
---i-sequences q2/its2/derep_seq.qza \
---i-table q2/its2/derep_table.qza \
---p-perc-identity 0.97 --p-strand plus \
---p-threads 20 --output-dir q2/its2/features
-```
-
-Filter rare features
-
-```{bash, eval=F}
-
-# Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Filter rare features
-qiime feature-table filter-features \
---i-table q2/its2/features/clustered_table.qza \
---p-min-frequency 10 \
---o-filtered-table q2/its2/features/f1_table.qza
-
-qiime feature-table filter-seqs \
---i-data q2/its2/features/clustered_sequences.qza \
---i-table q2/its2/features/f1_table.qza \
---o-filtered-data q2/its2/features/f1_sequences.qza
-```
-
-Identify chimeric sequences
-
-```{bash, eval=F}
-
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Detect chimeras
-qiime vsearch uchime-denovo \
---i-sequences q2/its2/features/f1_sequences.qza \
---i-table q2/its2/features/f1_table.qza \
---o-chimeras q2/its2/features/chimeras.qza \
---o-stats q2/its2/features/stats.qza \
---o-nonchimeras q2/its2/features/nonchimeras.qza
-```
-
-\newpage
-
-Filter chimeras from feature table
-
-```{bash, eval=F}
-
-# Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# Keep nonchimeric features in the table
-qiime feature-table filter-features \
---i-table q2/its2/features/f1_table.qza \
---m-metadata-file q2/its2/features/nonchimeras.qza \
---o-filtered-table q2/its2/features/otu_table.qza
-```
-
-Filter sequence file
-
-```{bash, eval=F}
-
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
-
-# QIIME 2 command to keep nonchimeric sequences
-qiime feature-table filter-seqs \
---i-data q2/its2/features/f1_sequences.qza \
---i-table q2/its2/features/otu_table.qza \
---o-filtered-data q2/its2/features/otu_sequences.qza
-```
-
-Import feature table and metadata to tse Import feature table and metadata to tse
-
-```{r, size="tiny"}
-# Import feature table and sort sample names alphabetically
-tse <- importQIIME2(featureTableFile = "q2/its2/features/otu_table.qza")
-tse <- tse[, sort(colnames(tse))]
-
-# Import metadata file and add data to colData
-metadata <- data.frame(read_tsv("meta.tsv",
-show_col_types = F))
-metadata <- column_to_rownames(metadata, "sampleid")
-colData(tse) <- DataFrame(metadata)
-
-# Check dimensions
-tse
-```
-
-Import sequences and rearrange to correspond count table
-
-```{r, size="tiny"}
-# Import sequence file
-ref_sequences <- importQZA("q2/its2/features/otu_sequences.qza")
-ref_ids <- names(ref_sequences)
-tse_ids <- rownames(tse)
-# Check if all rownames are present in the reference IDs
-if (!all(tse_ids %in% ref_ids)) {
-stop("Not all rownames from tse are present in the reference sequences.")
-}
-# Reorder `ref_sequences` to match the order of `tse` rownames
-ref_sequences_ordered <- ref_sequences[match(tse_ids, ref_ids)]
-all(names(ref_sequences_ordered) == rownames(tse))
-# Included ordered sequences to data object
-referenceSeq(tse) <- ref_sequences_ordered
-```
-
-Classify taxonomy. This step is computionally heavy.
-
-```{r, size="tiny", eval=F}
-# Unite reference file
-unite <- "~/feature_classifiers/sh_general_release_dynamic_04.04.2024.fasta"
-# Assign taxonomy using dada2 assignTaxonomy function
-taxa <- assignTaxonomy(referenceSeq(tse),unite, minBoot=50, multithread=2)
-# Save result to rds file
-saveRDS(taxa, "q2/its2_taxa.rds")
-```
-
-Process and included taxonomic results
-
-```{r, size="tiny"}
-# Read results
-taxa <- data.frame(readRDS("q2/its2_taxa.rds"))
-# Remove taxa prefixes from each column
-taxa <- as.data.frame(lapply(taxa, function(x) sub("^[a-z]__","", x)))
-#Add taxonomy to rowData
-rownames(taxa) <- NULL
-rowData(tse) <- DataFrame(taxa)
-# Rename rows
-rownames(tse) <- paste0("OTU_", seq_len(nrow(tse)))
-```
-
-Prune non-fungal taxa from data
-
-```{r, size="tiny"}
-# Non-bacterial taxa
-tse <- tse[rowData(tse)$Kingdom %in% "Fungi",]
-# Final dimensions
-tse
-```
-
-\newpage
-
-#### Write results to files
-
-#### **RDS**
-
-```{r, size="tiny"}
-saveRDS(tse, "results/tse_its2_original.rds")
-```
-
-**Abundance table**
-
-```{r, size="tiny"}
-#FeatureID will be rowname
-abd <- data.frame(FeatureID = rownames(tse),assays(tse)$counts)
-#Write
-write_tsv(abd, "results/its2_feature_table.tsv")
-```
-
-**Taxonomy table**
-
-```{r, size="tiny"}
-#FeatureID will be rowname
-taxt <- data.frame(FeatureID = rownames(tse), rowData(tse))
-#Write
-write_tsv(taxt, "results/its2_taxonomy.tsv")
-```
-
-**Feature sequences**
-
-```{r, size="tiny"}
-# Write fasta file
-writeXStringSet(referenceSeq(tse), "results/its2_repseq.fasta",
-append = F, compress = F,
-format = "fasta")
-```
-
-**Metadata file**
-
-```{r, size="tiny"}
-metadf <- data.frame(colData(tse)) %>% rownames_to_column(var="Sampleid")
-#write
-write_tsv(metadf, "results/its2_metadata.tsv")
-```
-
-#### Process extracted full ITS region reads
-
-Import reads
-
-```{bash, eval=F}
-
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
-
-# import command
-qiime tools import \
-  --type 'SampleData[SequencesWithQuality]' \
-  --input-path all/processed/manifest.csv \
-  --output-path q2/demux_all.qza \
-  --input-format SingleEndFastqManifestPhred33
-```
-
-\newpage
-
-Dereplicate full its sequences
-
-```{bash, eval=F}
-
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-amplicon-2024.5
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
 
 # Dereplicate
 qiime vsearch dereplicate-sequences \
---i-sequences q2/demux_all.qza \
---o-dereplicated-table q2/itsall/derep_table.qza \
---o-dereplicated-sequences q2/itsall/derep_seq.qza \
+--i-sequences qiime2/full_its.qza \
+--o-dereplicated-table qiime2/derep_table.qza \
+--o-dereplicated-sequences qiime2/derep_seqs.qza \
 --verbose
 ```
 
-De-novo otu picking at 97 % identity level using `vsearch` plugin
+Pick denovo otus at 97 % identity level using `vsearch` plugin
 
 ```{bash, eval=F}
 
-# Activate the QIIME 2 environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
 
 # Pick otus
 qiime vsearch cluster-features-de-novo \
---i-sequences q2/itsall/derep_seq.qza \
---i-table q2/itsall/derep_table.qza \
+--i-sequences qiime2/derep_seqs.qza \
+--i-table qiime2/derep_table.qza \
 --p-perc-identity 0.97 --p-strand plus \
---p-threads 2 --output-dir q2/itsall/features
+--p-threads 20 --output-dir qiime2/denovo
 ```
 
 Filter rare features
 
 ```{bash, eval=F}
 
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
 
 # QIIME 2 command to filter rare features
 qiime feature-table filter-features \
---i-table q2/itsall/features/clustered_table.qza \
+--i-table qiime2/denovo/clustered_table.qza \
 --p-min-frequency 10 \
---o-filtered-table q2/itsall/features/f1_table.qza
+--o-filtered-table qiime2/denovo/f10_table.qza
 
 qiime feature-table filter-seqs \
---i-data q2/itsall/features/clustered_sequences.qza \
---i-table q2/itsall/features/f1_table.qza \
---o-filtered-data q2/itsall/features/f1_sequences.qza
+--i-data qiime2/denovo/clustered_sequences.qza \
+--i-table qiime2/denovo/f10_table.qza \
+--o-filtered-data qiime2/denovo/f10_sequences.qza
 ```
+
+\newpage
 
 Identify chimeric sequences
 
 ```{bash, eval=F}
 
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
 
 # Detect chimeras
 qiime vsearch uchime-denovo \
---i-sequences q2/itsall/features/f1_sequences.qza \
---i-table q2/itsall/features/f1_table.qza \
---o-chimeras q2/itsall/features/chimeras.qza \
---o-stats q2/itsall/features/stats.qza \
---o-nonchimeras q2/itsall/features/nonchimeras.qza
+--i-sequences qiime2/denovo/f10_sequences.qza \
+--i-table qiime2/denovo/f10_table.qza \
+--o-chimeras qiime2/denovo/chimeras.qza \
+--o-stats qiime2/denovo/uchime-stats.qza \
+--o-nonchimeras qiime2/denovo/nonchimeras.qza
 ```
 
 Filter chimeric features from the table
 
 ```{bash, eval=F}
 
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
 
 # Keep nonchimeric features in the table
 qiime feature-table filter-features \
---i-table q2/itsall/features/f1_table.qza \
---m-metadata-file q2/itsall/features/nonchimeras.qza \
---o-filtered-table q2/itsall/features/otu_table.qza
+--i-table qiime2/denovo/f10_table.qza \
+--m-metadata-file qiime2/denovo/nonchimeras.qza \
+--o-filtered-table qiime2/otu_table.qza
 
 ```
 
@@ -661,41 +184,41 @@ Filter chimeric sequences
 
 ```{bash, eval=F}
 
-#Activate qiime environment
-source /opt/miniconda3/etc/profile.d/conda.sh
-conda activate qiime2-2024.2
+# Activate conda environment
+export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
+source activate qiime-2024.10
 
 # Keep nonchimeric sequences
 qiime feature-table filter-seqs \
---i-data q2/itsall/features/f1_sequences.qza \
---i-table q2/itsall/features/otu_table.qza \
---o-filtered-data q2/itsall/features/otu_sequences.qza
+--i-data qiime2/denovo/f10_sequences.qza \
+--i-table qiime2/otu_table.qza \
+--o-filtered-data qiime2/otu_sequences.qza
 ```
 
 \newpage
 
-Import feature table and metadata to tse
+Import feature table and metadata to TSE
 
 ```{r, size="tiny"}
 # Import feature table and sort sample names alphabetically
-tse <- importQIIME2(featureTableFile = "q2/itsall/features/otu_table.qza")
+tse <- importQIIME2(featureTableFile = "qiime2/otu_table.qza")
 tse <- tse[, sort(colnames(tse))]
 
 # Import metadata file and add data to colData
-metadata <- data.frame(read_tsv("meta.tsv",
+metadata <- data.frame(read_tsv("qiime2/meta.tsv",
 show_col_types = F))
-metadata <- column_to_rownames(metadata, "sampleid")
+metadata <- column_to_rownames(metadata, "Sampleid")
 colData(tse) <- DataFrame(metadata)
 
 # Check dimensions
 tse
 ```
 
-Import sequences and rearrange them to correspond count table
+Import sequences and rearrange them to correspond assay table
 
 ```{r, size="tiny"}
 # Import squence file
-ref_sequences <- importQZA("q2/itsall/features/otu_sequences.qza")
+ref_sequences <- importQZA("qiime2/otu_sequences.qza")
 ref_ids <- names(ref_sequences)
 tse_ids <- rownames(tse)
 # Check if all rownames are present in the reference IDs
@@ -713,11 +236,11 @@ Classify taxonomy. This step is computionally heavy.
 
 ```{r, size="tiny", eval=F}
 # Unite reference file
-unite <- "~/feature_classifiers/sh_general_release_dynamic_04.04.2024.fasta"
+unite <- "/homedir04/msuokas/reference/sh_general_release_dynamic_s_04.04.2024.fasta"
 # Assign taxonomy using dada2 assignTaxonomy function
-taxa <- assignTaxonomy(referenceSeq(tse),unite, minBoot=50, multithread=2)
+taxa <- assignTaxonomy(referenceSeq(tse),unite, minBoot=60, multithread=10)
 # Save result to rds file
-saveRDS(taxa, "q2/itsall_taxa.rds")
+saveRDS(taxa, "qiime2/taxonomy.rds")
 ```
 
 \newpage
@@ -726,7 +249,7 @@ Process and include taxonomic results
 
 ```{r, size="tiny"}
 # Read results
-taxa <- data.frame(readRDS("q2/itsall_taxa.rds"))
+taxa <- data.frame(readRDS("qiime2/taxonomy.rds"))
 # Remove taxa prefixes from each column
 taxa <- as.data.frame(lapply(taxa, function(x) sub("^[a-z]__","", x)))
 #Add taxonomy to rowData
@@ -736,7 +259,7 @@ rowData(tse) <- DataFrame(taxa)
 rownames(tse) <- paste0("OTU_", seq_len(nrow(tse)))
 ```
 
-Prune non-fungal taxa from data
+Prune non-fungal taxa
 
 ```{r, size="tiny"}
 # Non-fungal taxa
@@ -750,7 +273,7 @@ tse
 **RDS**
 
 ```{r, size="tiny"}
-saveRDS(tse, "results/tse_itsall_original.rds")
+saveRDS(tse, "qiime2/tse.rds")
 ```
 
 **Abundance table**
@@ -759,7 +282,7 @@ saveRDS(tse, "results/tse_itsall_original.rds")
 #FeatureID will be rowname
 abd <- data.frame(FeatureID = rownames(tse),assays(tse)$counts)
 #Write
-write_tsv(abd, "results/itsall_feature_table.tsv")
+write_tsv(abd, "results/feature_table.tsv")
 ```
 
 **Taxonomy table**
@@ -768,14 +291,14 @@ write_tsv(abd, "results/itsall_feature_table.tsv")
 #FeatureID will be rowname
 taxt <- data.frame(FeatureID = rownames(tse), rowData(tse))
 #Write
-write_tsv(taxt, "results/itsall_taxonomy.tsv")
+write_tsv(taxt, "results/taxonomy.tsv")
 ```
 
 **Feature sequences**
 
 ```{r, size="tiny"}
 # Write fasta file
-writeXStringSet(referenceSeq(tse), "results/itsall_repseq.fasta",
+writeXStringSet(referenceSeq(tse), "results/repseq.fasta",
 append = F, compress = F,
 format = "fasta")
 ```
@@ -787,29 +310,18 @@ format = "fasta")
 ```{r, size="tiny"}
 metadf <- data.frame(colData(tse)) %>% rownames_to_column(var="Sampleid")
 #write
-write_tsv(metadf, "results/itsall_metadata.tsv")
+write_tsv(metadf, "results/metadata.tsv")
 ```
 
 #### Summary table
 
 ```{r, size="tiny"}
-# Read data
-its1 <- readRDS("results/tse_its1.rds")
-its2 <- readRDS("results/tse_its2.rds")
-both <- readRDS("results/tse_itsall.rds")
 # Create data frame with counts information
-summary_df <- data.frame(Samples = colData(its1)$Labnro,
-                         ITS1 = colSums(assay(its1, "counts")),
-                         ITS2 = colSums(assay(its2, "counts")),
-                         Both = colSums(assay(both, "counts")))
+summary_df <- data.frame(Samples = colData(tse)$Labc,
+                         Reads = colSums(assay(tse, "counts")))
 rownames(summary_df) <- NULL
-```
-
-\newpage
-
-```{r, size="tiny"}
 kable(summary_df, caption = "ITS sequence summary") %>%
-kable_styling(latex_options = c("HOLD_position", "striped"),
+kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
 font_size = 11) %>% row_spec(0, background = "teal",
 color = "white")
 ```
@@ -821,28 +333,21 @@ color = "white")
 ```{r, size="tiny", fig.dim=c(6.5,5)}
 
 # Get sequences
-seqset1 <- referenceSeq(its1)
-seqset2 <- referenceSeq(its2)
-seqset3 <- referenceSeq(both) 
+seqset <- referenceSeq(tse) 
 
 # Calculate sequence lengths
-sequence_lengths1 <- nchar(seqset1)
-sequence_lengths2 <- nchar(seqset2)
-sequence_lengths3 <- nchar(seqset3)
+sequence_lengths <- nchar(seqset)
 
 # Combine lengths into a single data frame in long format
 its_df <- data.frame(
-  Length = c(sequence_lengths1, sequence_lengths2, sequence_lengths3),
-  Regions = factor(c(rep("ITS1", length(sequence_lengths1)),
-                     rep("ITS2", length(sequence_lengths2)),
-                     rep("Both", length(sequence_lengths3))))
-)
+  Length = sequence_lengths,
+  Region = factor(rep("ITSf", length(sequence_lengths))))
 
 # Plot the density distribution
-ggplot(its_df, aes(x = Length, fill = Regions)) +
-  geom_density(aes(y = ..count..), alpha = 0.5) +
+ggplot(its_df, aes(x = Length, fill = Region)) +
+  geom_density(aes(y = ..count..), alpha = 1) +
   labs(title = "Sequence Length Distribution",
        x = "Sequence Length (nt)", y = "Count") +
   theme_hc() +
-  scale_fill_stata()
+  scale_fill_lancet()
 ```
