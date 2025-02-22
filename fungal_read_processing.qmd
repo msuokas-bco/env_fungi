@@ -6,15 +6,14 @@ always_allow_html: true
 editor: visual
 ---
 
-```{r, include=F}
-
+Code will set quarto rendering related options
+```{r}
 # Allows to use different font sizes inside code chunks
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
   ifelse(options$size != "normalsize",
          paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)})
-
 # Some global options
 knitr::opts_chunk$set(warning = F, message = F)
 knitr::opts_chunk$set(fig.align = 'center')
@@ -23,16 +22,154 @@ silent_library <- function(pkg) {
   suppressPackageStartupMessages(library(pkg, character.only = T))
 }
 ```
+R base and Bioconductor related libraries
+```{r, size = "tiny"}
+# Load libraries
+library(tidyverse)
+library(kableExtra)
+library(ggthemes)
+library(dada2)
+library(mia)
+library(ggsci)
+library(ShortRead)
+library(patchwork)
+```
+
+\newpage
 
 #### Preprocessing
 
-The Nanopore basecaller lacks support for demultiplexing dual indexes located on both the 5’ and 3’ ends of reads. Additionally, ligated libraries may contain reads in either orientation. To address these, we use `Cutadapt` for demultiplexing and `SeqKit` for reverse-complementing reads in the reverse orientation. The sequences are then merged, and PCR primers are trimmed. A Python wrapper script, BCO_demux_tool has been created to automate these steps. End result is demultiplexed fastq.gz read files.
+The Nanopore basecaller lacks support for demultiplexing dual indexes located on both the 5’ and 3’ ends of reads. Additionally, ligated libraries may contain reads in either orientation. To address these, we use `Cutadapt` for demultiplexing and `SeqKit` for reverse-complementing reads in the reverse orientation. The sequences are then merged, and PCR primers are trimmed. 
+
+A Python wrapper script, BCO_demux_tool has been created to automate these steps. Script outputs demultiplexed fastq.gz read files.
+
+#### Read quality
+
+Nanopore sequencing quality scores differ from other sequencing technologies because it is impossible to determine accurate per-base Phred quality values directly from the electrical signal. Instead, these scores are estimated based on the confidence of the basecalling model, rather than directly reflecting the probability of a sequencing error. This should be considered when analyzing Nanopore data, as traditional quality filtering approaches may not always be appropriate.
+
+The code below reads already trimmed sample reads. A dataframe consisting of average Phred Q-values is subsequently visualised by violin plot.
+
+```{r phred_scores, eval =F, size="tiny"}
+#Define file path
+source_dir <- "raw/"
+# A function to read and calculate phred Q-values
+extract_qscores <- function(file) {
+    # Read sequence file
+    fq <- readFastq(file)
+    # Create matrix from quality values
+    qmat <- as(quality(fq), "matrix")
+    # Calculate avg q-score per read
+    avg_qscores <- apply(qmat, 1, mean, na.rm = T)
+    # Trim file names
+    sampleid <- sub("_trimmed\\.fastq\\.gz$", "", basename(file))
+    # Create a dataframe
+    qdata <- tibble(
+        average_qscore = avg_qscores,
+        sampleid = sampleid)
+    return(qdata)
+}
+
+# Create list of suitable files from source directory
+files <- list.files(source_dir, pattern = "\\.fastq\\.gz$", full.names = T)
+# Combined data frame by using map_dfr and applying function
+qscore_data <- map_dfr(files, extract_qscores)
+
+# Save results to rds files
+saveRDS(qscore_data, "qiime2/average_phred.rds")
+```
+Plot results
+
+```{r phred_plot, size="tiny"}
+qdata <- readRDS("qiime2/average_phred.rds")
+
+# Determine the number of sample batches (each batch has max 12 samples)
+sample_list <- unique(qdata$sampleid)
+sample_groups <- split(sample_list, ceiling(seq_along(sample_list) / 12))  # Split into groups of 12
+
+# Generate a separate plot for each group
+plots <- map(sample_groups, function(group_samples) {
+  ggplot(filter(qdata, sampleid %in% group_samples),
+         aes(x = sampleid, y = average_qscore, fill = sampleid)) +
+    geom_violin(scale = "width", alpha = 0.8) +
+    theme_fivethirtyeight(base_size = 8) +
+    labs(x = "Sample", y = "Average Q-score") +
+    theme(legend.position = "none", axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels for readability
+})
+
+# Combine all plots into a single vertical layout
+final_plot <- wrap_plots(plots, ncol = 1)
+
+# Show the plot
+print(final_plot)
+```
+
+ONT, however, calculates estimated cumulative error rate instead and converts value to average quality per read.
+```{r nanopore_quality, eval = F, size="tiny"}
+#Define paths
+source_dir <- "raw/"
+# A function to read and calculate average read quality
+extract_nano_qscores <- function(file) {
+    # Read fastq
+    fq <- readFastq(file)
+    # Extract quality values to a matrix
+    qmat <- as(quality(fq), "matrix")
+    # Convert phred values to error probabilities
+    error_probs <- 10^(-qmat/10)
+    # Compute number of expected errors per read
+    total_errors <- rowSums(error_probs, na.rm = T)
+    # Length per read
+    read_lenghts <- rowSums(!is.na(qmat))
+    # Compute ONT-style Q-score
+    ont_qscores <- -10*log10(total_errors/read_lenghts)
+    # Trim sample name
+    sampleid <- sub("_trimmed\\.fastq\\.gz$", "", basename(file))
+    
+    # Create a dataframe
+    qdata <- tibble(
+        nanopore_qscore = ont_qscores,
+        sampleid = sampleid)
+    return(qdata)
+}
+
+# Create list of file names
+files <- list.files(source_dir, pattern = "\\.fastq\\.gz$", full.names = T)
+# Combined data frame by using map_dfr and applying function
+qscore_data <- map_dfr(files, extract_nano_qscores)
+# Save results into a rds file
+saveRDS(qscore_data, "qiime2/nano_quality.rds")
+```
+
+```{r ont_quality_plot, size = "tiny"}
+qdata <- readRDS("qiime2/nano_quality.rds")
+
+# Determine the number of sample batches (each batch has max 12 samples)
+sample_list <- unique(qdata$sampleid)
+sample_groups <- split(sample_list, ceiling(seq_along(sample_list) / 12))  # Split into groups of 12
+
+# Generate a separate plot for each group
+plots <- map(sample_groups, function(group_samples) {
+  ggplot(filter(qdata, sampleid %in% group_samples),
+         aes(x = sampleid, y = nanopore_qscore, fill = sampleid)) +
+    geom_violin(scale = "width", alpha = 0.6) +
+    theme_fivethirtyeight(base_size=8) +
+    labs(x = "Sample", y = "Nanopore Q-score") +
+    theme(legend.position = "none", axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels for readability
+})
+
+# Combine all plots into a single vertical layout
+final_plot <- wrap_plots(plots, ncol = 1)
+
+# Show the plot
+print(final_plot)
+```
+
+\newpage
 
 #### ITSxpress (standalone)
 
 `Itsxpress` is used to trim ITS region. The code extracts full ITS region. Cutadapt is used to remove short sequences.
 
-```{bash, eval = F}
+```{bash, eval = F, size="tiny"}
 
 #!/bin/bash
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -63,27 +200,16 @@ echo "Processing complete! Check the output directory for results."
 
 Itsxpress sometimes leaves fastq sequence headers without DNA sequence. Such files will cause error when using vsearch to dereplicate sequences. We use support script to fix problematic files.
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 bash fix_fastq.sh /homedir04/msuokas/r_projects/env_fungi/xpress/
 
-```
-
-#### Load R libraries
-
-```{r, size = "tiny"}
-library(tidyverse)
-library(kableExtra)
-library(ggthemes)
-library(dada2)
-library(mia)
-library(ggsci)
 ```
 
 #### Process extracted ITS region sequences
 
 Import reads to qiime2
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
 source activate qiime-2024.10
@@ -95,7 +221,7 @@ qiime tools import --type 'SampleData[SequencesWithQuality]' \
 
 Dereplicate sequences
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -109,9 +235,10 @@ qiime vsearch dereplicate-sequences \
 --verbose
 ```
 
+\newpage
 Pick denovo otus at 97 % identity level using `vsearch` plugin
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -127,7 +254,7 @@ qiime vsearch cluster-features-de-novo \
 
 Filter rare features
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -145,11 +272,9 @@ qiime feature-table filter-seqs \
 --o-filtered-data qiime2/denovo/f10_sequences.qza
 ```
 
-\newpage
-
 Identify chimeric sequences
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -166,7 +291,7 @@ qiime vsearch uchime-denovo \
 
 Filter chimeric features from the table
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -182,7 +307,7 @@ qiime feature-table filter-features \
 
 Filter chimeric sequences
 
-```{bash, eval=F}
+```{bash, eval=F, size="tiny"}
 
 # Activate conda environment
 export PATH="/homedir04/msuokas/miniconda3/bin:$PATH"
@@ -195,7 +320,6 @@ qiime feature-table filter-seqs \
 --o-filtered-data qiime2/otu_sequences.qza
 ```
 
-\newpage
 
 Import feature table and metadata to TSE
 
@@ -244,7 +368,6 @@ saveRDS(taxa, "qiime2/taxonomy.rds")
 ```
 
 \newpage
-
 Process and include taxonomic results
 
 ```{r, size="tiny"}
