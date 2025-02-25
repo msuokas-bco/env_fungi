@@ -15,7 +15,7 @@ This document summarizes the workflow for processing fungal Nanopore sequencing 
 ## 3. ITS Region Extraction and Trimming
 - ITSxpress is used to extract the full ITS region.
 - Cutadapt filters out short sequences.
-- Accompanied script can fix problematic FASTQ headers to ensure compatibility with downstream tools and create manifest file for Qiime import.
+- Accompanying script can fix problematic FASTQ headers to ensure compatibility with downstream tools and create a manifest file for QIIME import.
 
 ## 4. QIIME 2 Workflow
 - Reads are imported into QIIME 2 and dereplicated.
